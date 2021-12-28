@@ -1,32 +1,38 @@
 import Koa from 'koa';
 import { FarConfig } from '../config';
 import { FarPlugin, buildins } from '../plugins';
-import logger, { defineLogger } from '../logger';
+import logger, { confLogger } from '../logger';
 
 /** TODO: 排序 */
-const sortPlugins = (plugins: FarPlugin[]): FarPlugin[] => {
+const queuePlugins = (plugins: FarPlugin[]): FarPlugin[] => {
   return [...plugins];
 };
 
 export const server = async (conf: FarConfig) => {
   const app = new Koa();
-  /** 先配置一下, 在下面log用, 在 plugins 中会再次配置一次 */
-  defineLogger(conf);
+  confLogger(conf);
+  const sortedPlugins = queuePlugins([...buildins, ...conf.plugins]);
 
-  const plugins = sortPlugins([...buildins, ...conf.plugins]).map((plugin) => {
-    const plug = plugin(conf);
-    return {
-      plug,
-      name: plugin.name,
-    };
-  });
+  const plugins = await Promise.all(
+    sortedPlugins.map((plugin) => {
+      return plugin(conf, app);
+    }),
+  );
 
-  plugins.forEach((plug) => {
-    logger.info(`注册插件::${plug.name}`);
-    app.use(plug.plug);
-    // app.use(async (ctx, next) => {
-    //   await plug.plug(ctx, next, app);
-    // });
+  plugins.forEach(async (plug, idx) => {
+    if (plug) {
+      const name = sortedPlugins[idx].name;
+      try {
+        if (Array.isArray(plug)) {
+          plug.forEach((p) => app.use(p));
+        } else {
+          app.use(plug);
+        }
+        logger.info(`注册插件::${name}`);
+      } catch (error) {
+        logger.error(`注册插件失败::${name}`, error);
+      }
+    }
   });
 
   return app.listen(

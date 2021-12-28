@@ -1,12 +1,12 @@
 import { Conf } from '@rlx/conf';
-import { byPwd } from './utils';
-import type { Log4jsConfig } from './logger';
+import type { LoggerConfig } from './logger';
 import type { ApisMap } from './plugins/routes';
 import type { FarPlugin } from './plugins';
 
 export const APPNAME = 'far';
 
 export const FarConfigDefaults = {
+  appname: 'far',
   plugins: [] as FarPlugin[],
   server: {
     host: '127.0.0.1',
@@ -19,7 +19,7 @@ export type ShapeOfFarConfigDefaults = typeof FarConfigDefaults;
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface FarConfig extends ShapeOfFarConfigDefaults {
-  log4js?: Log4jsConfig;
+  logger?: LoggerConfig;
   apis: ApisMap;
   public?: string;
 }

@@ -15,7 +15,7 @@ export type ApisMap = {
   };
 };
 
-export const pluginRoutes: FarPlugin = (conf: FarConfig) => {
+export const pluginRoutes: FarPlugin = (conf: FarConfig, app) => {
   const apis = conf.apis;
   const router = new KoaRouter();
 
@@ -51,10 +51,8 @@ export const pluginRoutes: FarPlugin = (conf: FarConfig) => {
     });
   });
 
-  return (ctx, next) => {
-    router.prefix(conf.server.basePath);
-    compose([router.routes(), router.allowedMethods()])(ctx, next);
-  };
+  router.prefix(conf.server.basePath);
+  return [router.routes(), router.allowedMethods()];
 };
 
 pluginRoutes.name = 'routes';
