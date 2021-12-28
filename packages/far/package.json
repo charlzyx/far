@@ -1,25 +1,15 @@
 {
   "name": "@rlx/far",
   "version": "0.0.0",
-  "description": "rlx node server core",
-  "author": "xiaochao.yang <xiaochao.yang@relxtech.com>",
-  "homepage": "",
-  "license": "ISC",
+  "description": "rlx node server",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
-  "directories": {
-    "src": "src",
-    "test": "__tests__"
-  },
-  "files": [
-    "src"
-  ],
-  "publishConfig": {
-    "registry": "http://npm.relxtech.com/"
+  "bin": {
+    "far": "dist/bin/far.js"
   },
   "scripts": {
-    "test": "jest",
-    "build": "tsup-node --dts"
+    "build": "tsup-node --dts",
+    "test": "jest"
   },
   "tsup": {
     "splitting": false,
@@ -27,20 +17,26 @@
     "clean": true,
     "target": "node14",
     "entryPoints": [
-      "src/index.ts"
+      "src/index.ts",
+      "src/bin/far.ts"
     ]
   },
-  "dependencies": {
-    "koa": "^2.13.4"
+  "engines": {
+    "node": ">=14"
   },
-  "devDependencies": {
-    "@babel/core": "^7.16.5",
-    "@babel/preset-env": "^7.16.5",
-    "@babel/preset-typescript": "^7.16.5",
-    "@types/jest": "^27.0.3",
+  "keywords": [],
+  "author": "xiaochao.yang",
+  "license": "MIT",
+  "devDependencies": {},
+  "dependencies": {
+    "@rlx/conf": "^1.0.3",
     "@types/koa": "^2.13.4",
-    "babel-jest": "^27.4.5",
-    "jest": "^27.4.5",
-    "tsup": "^5.11.6"
+    "@types/koa-router": "^7.4.4",
+    "@types/koa-static": "^4.0.2",
+    "@types/prettier": "^2.4.2",
+    "koa": "^2.13.4",
+    "koa-router": "^10.1.1",
+    "koa-static": "^5.0.0",
+    "prettier": "^2.5.1"
   }
 }

@@ -1,2 +1,2 @@
-node_modeuls/
-.dist
+**/node_modeuls/
+**/dist/
