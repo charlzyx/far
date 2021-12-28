@@ -1,0 +1,19 @@
+{
+  "packages": [
+    "packages/*"
+  ],
+  "command": {
+    "bootstrap": {
+      "hoist": false
+    },
+    "version": {
+      "conventionalCommits": true
+    }
+  },
+  "useWorkspaces": true,
+  "npmClient": "yarn",
+  "ignoreChanges": [
+    "**/*.md"
+  ],
+  "version": "independent"
+}
