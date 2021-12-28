@@ -1,25 +1,11 @@
 {
-  "name": "@rlx/far",
+  "name": "@rlx/far-example",
   "version": "0.0.0",
   "description": "rlx node server",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
-  "bin": {
-    "far": "dist/bin/far.js"
-  },
   "scripts": {
     "build": "tsup-node --dts",
+    "dev": "far dev",
     "test": "jest"
-  },
-  "tsup": {
-    "splitting": false,
-    "sourcemap": true,
-    "clean": true,
-    "target": "node14",
-    "entryPoints": [
-      "src/index.ts",
-      "src/bin/far.ts"
-    ]
   },
   "engines": {
     "node": ">=14"
@@ -32,14 +18,13 @@
   },
   "dependencies": {
     "@rlx/conf": "^1.0.3",
-    "@rlx/ts-import-sync": "^2.0.40-patch5",
+    "@rlx/far": "0.0.0",
+    "@rlx/tai": "^0.9.20",
     "@types/koa": "^2.13.4",
-    "@types/koa-log4": "^2.3.3",
     "@types/koa-router": "^7.4.4",
     "@types/koa-static": "^4.0.2",
     "@types/prettier": "^2.4.2",
     "koa": "^2.13.4",
-    "koa-log4": "^2.3.2",
     "koa-router": "^10.1.1",
     "koa-static": "^5.0.0",
     "prettier": "^2.5.1"

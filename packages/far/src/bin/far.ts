@@ -1,7 +1,9 @@
+#!/usr/bin/env node
+
 import { Conf } from '@rlx/conf';
 import commander from 'commander';
 import prettier from 'prettier';
-import { FarConfig } from '../config';
+import { APPNAME, FarConfigDefaults } from '../config';
 import { devServer } from '../commands/dev';
 
 const program = new commander.Command();
@@ -11,20 +13,19 @@ program
   .description('生成 「far」 的默认配置文件')
   .action(async () => {
     const tpl = prettier.format(
-      `
-/**
- * @type {import('@rlx/far').FarConfig}
- **/
-const conf = ${JSON.stringify(FarConfig, null, 2)};
-
-module.exports = conf;
-    `,
+      `import { defineConfig } from '@rlx/far'
+       import logx from './src/middleware/logx'
+       export default defineConfig(${JSON.stringify(
+         FarConfigDefaults,
+         null,
+         2,
+       )});`,
       { semi: false, singleQuote: true },
     );
-    const genConf = Conf.make('taibai', FarConfig, {
+    const genConf = Conf.make(APPNAME, FarConfigDefaults, {
       content: tpl,
       generateIfNoExist: true,
-      suffix: 'js',
+      suffix: 'ts',
     });
     await genConf.load();
   });

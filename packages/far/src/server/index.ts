@@ -1,72 +1,43 @@
-import Koa, { Context } from 'koa';
-import serve from 'koa-static';
-import KoaRouter from 'koa-router';
+import Koa from 'koa';
 import { FarConfig } from '../config';
-import { byPwd } from '../utils';
+import { FarPlugin, buildins } from '../plugins';
+import logger, { defineLogger } from '../logger';
 
-type ApisShape = {
-  [namespace: string]: {
-    [apiName: string]: {
-      path: string;
-      method: 'get' | 'post' | 'patch' | 'delete';
-      handler: <ReqInput extends Record<string, any>>(
-        input: ReqInput,
-        params: Record<string, string>,
-      ) => Promise<any>;
-    };
-  };
+/** TODO: 排序 */
+const sortPlugins = (plugins: FarPlugin[]): FarPlugin[] => {
+  return [...plugins];
 };
 
 export const server = async (conf: FarConfig) => {
   const app = new Koa();
-  const router = new KoaRouter();
+  /** 先配置一下, 在下面log用, 在 plugins 中会再次配置一次 */
+  defineLogger(conf);
 
-  const { publicDir, entry, middlewares } = conf;
-  const www = byPwd(publicDir);
-  const apis: ApisShape = await import(entry);
-
-  Object.keys(apis).forEach((namespace) => {
-    const api = apis[namespace];
-    Object.keys(api).forEach((apiName) => {
-      const apiConf = api[apiName];
-      if (!apiConf.method) return;
-      // console.log(`register router ::${apiConf.method}${apiConf.path} `);
-      router[apiConf.method](apiConf.path, async (ctx: Context, next) => {
-        const input: any = ctx.body || ctx.query;
-        const params = ctx.params;
-        // const banner = `${apiConf.path}${
-        //   (apiConf == null ? void 0 : apiConf.path) || ''
-        // }`;
-        // console.log('enter ', banner);
-        try {
-          const data = await apiConf.handler(input, params);
-          ctx.body = {
-            code: 200,
-            data,
-            message: 'success',
-          };
-        } catch (error: any) {
-          ctx.body = {
-            code: 500,
-            data: null,
-            message: `${error.message} at ${apiConf.path}`,
-          };
-        }
-        await next();
-      });
-    });
+  const plugins = sortPlugins([...buildins, ...conf.plugins]).map((plugin) => {
+    const plug = plugin(conf);
+    return {
+      plug,
+      name: plugin.name,
+    };
   });
 
-  middlewares.forEach((mw) => {
-    app.use(mw);
+  plugins.forEach((plug) => {
+    logger.info(`注册插件::${plug.name}`);
+    app.use(plug.plug);
+    // app.use(async (ctx, next) => {
+    //   await plug.plug(ctx, next, app);
+    // });
   });
 
-  router.prefix(conf.server.basePath);
-  app.use(router.routes()).use(router.allowedMethods());
-
-  app.use(serve(www, {}));
-  return app.listen({
-    host: conf.server.host,
-    port: conf.server.port,
-  });
+  return app.listen(
+    {
+      host: conf.server.host,
+      port: conf.server.port,
+    },
+    () => {
+      console.log(
+        `starting at:: http://${conf.server.host}:${conf.server.port}${conf.server.basePath}`,
+      );
+    },
+  );
 };
