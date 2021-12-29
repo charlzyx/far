@@ -24,6 +24,7 @@
   - schedule 定时任务
   - mq
   - rpc
+  - node 性能监控
 
 ## cli
 - create

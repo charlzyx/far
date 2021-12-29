@@ -1,6 +1,5 @@
 import { Conf } from '@rlx/conf';
 import type { LoggerConfig } from './logger';
-import type { ApisMap } from './plugins/routes';
 import type { FarPlugin } from './plugins';
 
 export const APPNAME = 'far';
@@ -20,7 +19,6 @@ export type ShapeOfFarConfigDefaults = typeof FarConfigDefaults;
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface FarConfig extends ShapeOfFarConfigDefaults {
   logger?: LoggerConfig;
-  apis: ApisMap;
   public?: string;
 }
 

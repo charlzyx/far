@@ -1,27 +1,46 @@
 import Koa from 'koa';
 import { FarConfig } from '../config';
-import { FarPlugin, buildins } from '../plugins';
-import logger, { confLogger } from '../logger';
+import { FarPlugin } from '../plugins';
+import { loggerInit, loggerPlugin } from '../logger';
+import KoaRouter from 'koa-router';
 
-/** TODO: 排序 */
-const queuePlugins = (plugins: FarPlugin[]): FarPlugin[] => {
-  return [...plugins];
+const resortPlugins = (plugins: FarPlugin[]): FarPlugin[] => {
+  const clone = [...plugins];
+  clone.sort((a, b) => (a.priority || 0) - (b.priority || 0));
+  return clone;
 };
 
 export const server = async (conf: FarConfig) => {
   const app = new Koa();
-  confLogger(conf);
-  const sortedPlugins = queuePlugins([...buildins, ...conf.plugins]);
+  const router = new KoaRouter();
+  const logger = loggerInit(conf);
+
+  const routerPlugin: FarPlugin = (_, { app: appInstace }) => {
+    appInstace.use(router.routes());
+    appInstace.use(router.allowedMethods());
+  };
+  routerPlugin.name = 'router';
+
+  const sortedPlugins = resortPlugins([
+    loggerPlugin,
+    routerPlugin,
+    ...conf.plugins,
+  ]);
 
   const plugins = await Promise.all(
     sortedPlugins.map((plugin) => {
-      return plugin(conf, app);
+      return plugin(conf, { app, router, logger });
     }),
   );
+
+  logger.info(`插件加载顺序::${sortedPlugins.map((x) => x.name).join(',')}`);
 
   plugins.forEach(async (plug, idx) => {
     if (plug) {
       const name = sortedPlugins[idx].name;
+      if (!name) {
+        logger.error(`插件缺少名称::${sortedPlugins[idx]}`);
+      }
       try {
         if (Array.isArray(plug)) {
           plug.forEach((p) => app.use(p));
@@ -41,7 +60,7 @@ export const server = async (conf: FarConfig) => {
       port: conf.server.port,
     },
     () => {
-      console.log(
+      logger.info(
         `starting at:: http://${conf.server.host}:${conf.server.port}${conf.server.basePath}`,
       );
     },

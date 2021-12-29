@@ -1272,27 +1272,10 @@
     eslint-plugin-node "^11.1.0"
     eslint-plugin-security "^1.4.0"
 
-"@rlx/tai@^0.9.20":
-  version "0.9.20"
-  resolved "http://npm.relxtech.com/@rlx%2ftai/-/tai-0.9.20.tgz#63f5be3f9a391a65e3fca75b3d53485a0be9162f"
-  integrity sha512-IsPARbikj59wDn+Nni/WvHvdpzMLLo68d1PO/zut430Ntu9/sWYciGkN4xq3R8vLDiej7KH9Rreo2goqDFnLXQ==
-  dependencies:
-    "@rlx/conf" "^1.0.1"
-    "@rlx/ts-json-schema-generator" "^0.97.0-patch4"
-    commander "^8.3.0"
-    glob "^7.2.0"
-    http-server "^14.0.0"
-    json-schema "^0.4.0"
-    json5 "^2.2.0"
-    lodash "^4.17.21"
-    minimist "^1.2.5"
-    openapi-types "^10.0.0"
-    prettier "^2.5.1"
-
-"@rlx/tai@^0.9.21":
-  version "0.9.21"
-  resolved "http://npm.relxtech.com/@rlx%2ftai/-/tai-0.9.21.tgz#9f084897a26ac74ec601bb45e3b07bbd266d3070"
-  integrity sha512-veDVuuquocoRG4F1M/9XvktFb6r9PNvcvPM8C/cRpYiMmWHuCufsCjXaUSv2j1U6gTSIm3u//08alfHr0RFO1Q==
+"@rlx/tai@^0.9.22":
+  version "0.9.22"
+  resolved "http://npm.relxtech.com/@rlx%2ftai/-/tai-0.9.22.tgz#717ef876768f39756b50281198d425286b9205c4"
+  integrity sha512-OJq+6QrnIHRzcF9SXDGc5SpYV4/+/9er6n1J8cMo2fABcejuX/8ftcdbQL7N4wB2iSSy1NI7GoChe+KOMIM4dQ==
   dependencies:
     "@rlx/conf" "^1.0.1"
     "@rlx/ts-json-schema-generator" "^0.97.0-patch4"
@@ -1486,6 +1469,11 @@
     "@types/keygrip" "*"
     "@types/koa-compose" "*"
     "@types/node" "*"
+
+"@types/lodash@^4.14.178":
+  version "4.14.178"
+  resolved "https://registry.npmmirror.com/@types/lodash/download/@types/lodash-4.14.178.tgz#341f6d2247db528d4a13ddbb374bcdc80406f4f8"
+  integrity sha512-0d5Wd09ItQWH1qFbEyQ7oTQ3GZrMfth5JkbN3EvTKLXcHLRDSXeLnlvlOn0wvxVIwK5o2M8JzP/OWz7T3NRsbw==
 
 "@types/mime@^1":
   version "1.3.2"
