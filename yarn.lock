@@ -375,6 +375,17 @@
   resolved "https://registry.npmmirror.com/@hutson/parse-repository-url/download/@hutson/parse-repository-url-3.0.2.tgz#98c23c950a3d9b6c8f0daed06da6c3af06981340"
   integrity sha1-mMI8lQo9m2yPDa7QbabDrwaYE0A=
 
+"@koa/router@^10.1.1":
+  version "10.1.1"
+  resolved "https://registry.npmmirror.com/@koa/router/download/@koa/router-10.1.1.tgz#8e5a85c9b243e0bc776802c0de564561e57a5f78"
+  integrity sha1-jlqFybJD4Lx3aALA3lZFYeV6X3g=
+  dependencies:
+    debug "^4.1.1"
+    http-errors "^1.7.3"
+    koa-compose "^4.1.0"
+    methods "^1.1.2"
+    path-to-regexp "^6.1.0"
+
 "@lerna/add@4.0.0":
   version "4.0.0"
   resolved "https://registry.npmmirror.com/@lerna/add/download/@lerna/add-4.0.0.tgz#c36f57d132502a57b9e7058d1548b7a565ef183f"
@@ -1249,6 +1260,17 @@
     lodash "^4.17.21"
     ts-options-defaults "^2.0.5"
 
+"@rlx/conf@^1.0.5":
+  version "1.0.5"
+  resolved "http://npm.relxtech.com/@rlx%2fconf/-/conf-1.0.5.tgz#b21ea7ac5db49f58dac0d9188b6524fee2324118"
+  integrity sha512-RWCDFhIlU8TlyTaA9U2fm5i0Ke/+iiLXd5UbUYLczpiXX6mkjilQeWUNsJaDIZYBKASTTLssxvQ/a5J0MPl4fQ==
+  dependencies:
+    "@rlx/ts-import-sync" "^2.0.40-patch1"
+    immer "^9.0.7"
+    js-yaml "^4.1.0"
+    lodash "^4.17.21"
+    ts-options-defaults "^2.0.5"
+
 "@rlx/eslint-config-base@^2.0.4":
   version "2.0.4"
   resolved "http://npm.relxtech.com/@rlx%2feslint-config-base/-/eslint-config-base-2.0.4.tgz#c2fa7d0962a52b995eff5ec8d702ea7fa656c1e7"
@@ -1272,10 +1294,10 @@
     eslint-plugin-node "^11.1.0"
     eslint-plugin-security "^1.4.0"
 
-"@rlx/tai@^0.9.22":
-  version "0.9.22"
-  resolved "http://npm.relxtech.com/@rlx%2ftai/-/tai-0.9.22.tgz#717ef876768f39756b50281198d425286b9205c4"
-  integrity sha512-OJq+6QrnIHRzcF9SXDGc5SpYV4/+/9er6n1J8cMo2fABcejuX/8ftcdbQL7N4wB2iSSy1NI7GoChe+KOMIM4dQ==
+"@rlx/tai@^0.10.1":
+  version "0.10.1"
+  resolved "http://npm.relxtech.com/@rlx%2ftai/-/tai-0.10.1.tgz#4d17f3b119056f12bdfda69cdc04b1727c10113a"
+  integrity sha512-uPwMM0TOY/6nPypffB1Mnm8O4BOIM9l35DTvliEoagKxMtLrJRJMkdyB+1SAzAOG1kKKgTLNTsoF96JAhvKGcQ==
   dependencies:
     "@rlx/conf" "^1.0.1"
     "@rlx/ts-json-schema-generator" "^0.97.0-patch4"
@@ -1434,13 +1456,6 @@
   dependencies:
     "@types/koa" "*"
 
-"@types/koa-router@^7.4.4":
-  version "7.4.4"
-  resolved "https://registry.npmmirror.com/@types/koa-router/download/@types/koa-router-7.4.4.tgz#db72bde3616365d74f00178d5f243c4fce7da572"
-  integrity sha1-23K942FjZddPABeNXyQ8T859pXI=
-  dependencies:
-    "@types/koa" "*"
-
 "@types/koa-send@*":
   version "4.1.3"
   resolved "https://registry.npmmirror.com/@types/koa-send/download/@types/koa-send-4.1.3.tgz#17193c6472ae9e5d1b99ae8086949cc4fd69179d"
@@ -1469,6 +1484,13 @@
     "@types/keygrip" "*"
     "@types/koa-compose" "*"
     "@types/node" "*"
+
+"@types/koa__router@^8.0.11":
+  version "8.0.11"
+  resolved "https://registry.npmmirror.com/@types/koa__router/download/@types/koa__router-8.0.11.tgz#d7b37e6db934fc072ea1baa2ab92bc8ac4564f3e"
+  integrity sha512-WXgKWpBsbS14kzmzD9LeFapOIa678h7zvUHxDwXwSx4ETKXhXLVUAToX6jZ/U7EihM7qwyD9W/BZvB0MRu7MTQ==
+  dependencies:
+    "@types/koa" "*"
 
 "@types/lodash@^4.14.178":
   version "4.14.178"
@@ -1527,6 +1549,11 @@
   dependencies:
     "@types/mime" "^1"
     "@types/node" "*"
+
+"@types/triple-beam@^1.3.2":
+  version "1.3.2"
+  resolved "https://registry.npmmirror.com/@types/triple-beam/download/@types/triple-beam-1.3.2.tgz#38ecb64f01aa0d02b7c8f4222d7c38af6316fef8"
+  integrity sha1-OOy2TwGqDQK3yPQiLXw4r2MW/vg=
 
 "@typescript-eslint/eslint-plugin@^5.7.0":
   version "5.8.0"
@@ -4508,17 +4535,6 @@ koa-convert@^2.0.0:
     co "^4.6.0"
     koa-compose "^4.1.0"
 
-koa-router@^10.1.1:
-  version "10.1.1"
-  resolved "https://registry.npmmirror.com/koa-router/download/koa-router-10.1.1.tgz#20809f82648518b84726cd445037813cd99f17ff"
-  integrity sha1-IICfgmSFGLhHJs1EUDeBPNmfF/8=
-  dependencies:
-    debug "^4.1.1"
-    http-errors "^1.7.3"
-    koa-compose "^4.1.0"
-    methods "^1.1.2"
-    path-to-regexp "^6.1.0"
-
 koa-send@^5.0.0:
   version "5.0.1"
   resolved "https://registry.npmmirror.com/koa-send/download/koa-send-5.0.1.tgz#39dceebfafb395d0d60beaffba3a70b4f543fe79"
@@ -6229,7 +6245,7 @@ safe-stable-stringify@^1.1.0:
   resolved "https://registry.npmmirror.com/safe-stable-stringify/download/safe-stable-stringify-1.1.1.tgz#c8a220ab525cd94e60ebf47ddc404d610dc5d84a"
   integrity sha1-yKIgq1Jc2U5g6/R93EBNYQ3F2Eo=
 
-safe-stable-stringify@^2.2.0:
+safe-stable-stringify@^2.2.0, safe-stable-stringify@^2.3.1:
   version "2.3.1"
   resolved "https://registry.npmmirror.com/safe-stable-stringify/download/safe-stable-stringify-2.3.1.tgz#ab67cbe1fe7d40603ca641c5e765cb942d04fc73"
   integrity sha512-kYBSfT+troD9cDA85VDnHZ1rpHC50O0g1e6WlGHVCz/g+JS+9WKLj+XwFYyR8UbrZN8ll9HUpDAAddY58MGisg==

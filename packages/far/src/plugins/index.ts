@@ -1,12 +1,24 @@
 import Koa, { Context, Middleware } from 'koa';
-import KoaRouter from 'koa-router';
+import KoaRouter from '@koa/router';
 import { FarConfig } from '../config';
-import { logger } from '../logger';
+import { FarLogger } from '../logger';
 
-type MaybeMiddleware =
-  | Middleware<any, Context>
-  | Middleware<any, Context>[]
-  | void;
+export const resortPlugins = (plugins: FarPlugin[]): FarPlugin[] => {
+  const clone = [...plugins];
+  clone.sort((a, b) => (a.priority || 0) - (b.priority || 0));
+  return clone;
+};
+
+type MiddlewareLike =
+  | Middleware<Koa.DefaultState, Context>
+  | Middleware<Koa.DefaultState, Context>[];
+
+/** 懒惰的注册函数 */
+type LazyRegister = () => void | Promise<void>;
+type MiddlewareUseBox = {
+  /** 或者, use: 中间件 | 中间件[] */
+  use?: MiddlewareLike;
+};
 
 export interface FarPlugin {
   (
@@ -14,10 +26,12 @@ export interface FarPlugin {
     other: {
       app: Koa;
       router: KoaRouter;
-      logger: typeof logger;
+      /** 插件级 logger */
+      logger: FarLogger;
     },
-  ): MaybeMiddleware | Promise<MaybeMiddleware>;
-  name: string;
-  /** 默认值 0 */
+  ): LazyRegister | MiddlewareUseBox;
+  /** 默认是插件的函数名称, 如果有的话... */
+  name?: string;
+  /** 权重, 值越小中间件越靠前 默认值 0 */
   priority?: number;
 }

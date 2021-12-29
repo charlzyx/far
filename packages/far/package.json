@@ -28,23 +28,26 @@
   "author": "xiaochao.yang",
   "license": "MIT",
   "dependencies": {
-    "@rlx/conf": "^1.0.3",
+    "@koa/router": "^10.1.1",
+    "@rlx/conf": "^1.0.5",
     "@rlx/ts-import-sync": "^2.0.40-patch5",
+    "@types/koa__router": "^8.0.11",
+    "@types/triple-beam": "^1.3.2",
     "fast-json-stringify": "^2.7.13",
     "koa": "^2.13.4",
-    "koa-router": "^10.1.1",
     "koa-static": "^5.0.0",
     "lodash": "^4.17.21",
     "prettier": "^2.5.1",
+    "safe-stable-stringify": "^2.3.1",
+    "triple-beam": "^1.3.0",
     "winston": "^3.3.3",
     "winston-daily-rotate-file": "^4.5.5",
     "winston-transport": "^4.4.1"
   },
   "devDependencies": {
-    "@types/lodash": "^4.14.178",
     "@types/koa": "^2.13.4",
-    "@types/koa-router": "^7.4.4",
     "@types/koa-static": "^4.0.2",
+    "@types/lodash": "^4.14.178",
     "@types/prettier": "^2.4.2"
   }
 }

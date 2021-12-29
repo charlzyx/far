@@ -1,17 +1,15 @@
 /** https://juejin.cn/post/6865926810061045774 */
-import winston from 'winston';
+import winston, { format } from 'winston';
 import * as Transport from 'winston-transport';
 import { FarConfig } from '../config';
-import { FarPlugin } from '../plugins';
 import { byPwd, isPROD } from '../utils';
 import DailyRotateFile from 'winston-daily-rotate-file';
-import { append, stringify } from './utils';
+import { appendCtxLogField, inlineFormat } from './utils';
 
-/** TODO: ES 和 链路追踪 的 transport, 参考 winston.transports.Console 实现 */
-interface RemoteTransport extends Transport {
-  host: string;
-  port: number;
-}
+export type FarLogger = ReturnType<typeof getLogger>;
+
+type LogFormat = ReturnType<ReturnType<typeof format>>;
+
 export type LoggerConfig = {
   logDir: string;
 };
@@ -20,76 +18,80 @@ export const logConfigDefaults: LoggerConfig = {
   logDir: byPwd('logs'),
 };
 
+/** TODO: ES 和 链路追踪 的 transport, 参考 winston.transports.Console 实现 */
+interface RemoteTransport extends Transport {
+  host: string;
+  port: number;
+}
 const consoleTransport = new winston.transports.Console();
 
 const memo = {
-  logger: winston.createLogger({
-    transports: [consoleTransport],
-  }),
+  logger: winston.createLogger({}),
 };
 
+export const setAppLoggerInMemo = (
+  logger: ReturnType<typeof winston.createLogger>,
+) => {
+  memo.logger = logger;
+};
+
+/** app logger */
 export const logger = new Proxy(memo.logger, {
   get(_, key) {
-    if (key === 'append') {
-      return append;
-    }
     return Reflect.get(memo.logger, key);
   },
-}) as typeof memo.logger & {
-  append: typeof append;
-};
+}) as FarLogger;
 
-export const loggerInit = (conf: FarConfig) => {
-  const dir = byPwd(conf.logger?.logDir || '');
+export const getLogger = (
+  conf: FarConfig,
+  label = '',
+  formats: LogFormat[] = [],
+) => {
   const dailyTransport: DailyRotateFile = new DailyRotateFile({
-    filename: `${dir}/${conf.appname}-%DATE%.log`,
+    filename: `${conf.logger?.logDir}/${conf.appname}-%DATE%.log`,
     datePattern: 'YYYY-MM-DD-HH',
     zippedArchive: true,
     maxSize: '20m',
     maxFiles: '14d',
   });
-
   const transports = isPROD
     ? [dailyTransport]
     : [consoleTransport, dailyTransport];
 
-  memo.logger = winston.createLogger({
-    format: winston.format.combine(
-      winston.format.label({ label: conf.appname }),
+  const withDefaultFormats = (
+    labelName: string,
+    ...appendFormats: LogFormat[]
+  ) => {
+    return winston.format.combine(
+      winston.format.label({ label: labelName }),
+      inlineFormat(),
       winston.format.timestamp(),
-      winston.format.prettyPrint(),
-      winston.format.align(),
-    ),
+      ...appendFormats,
+    );
+  };
+
+  const appLabel = label || conf.appname || 'far';
+  const innerLogger = winston.createLogger({
+    format: withDefaultFormats(appLabel, ...formats),
     transports,
   });
-  return memo.logger;
-};
 
-/** logger plugin */
+  (innerLogger as any).appendCtxLogField = appendCtxLogField;
 
-declare module 'koa' {
-  interface Context {
-    /** append by logger */
-    start_time: number;
-    /** append by logger */
-    end_time: number;
-    /** append by logger */
-    duration: number;
-  }
-}
+  const create = (
+    getOpts: (
+      appTransports: Transport[],
+      withAppFormats: typeof withDefaultFormats,
+    ) => Parameters<typeof winston.createLogger>[0],
+  ) => {
+    const opts = getOpts(transports, withDefaultFormats);
+    return winston.createLogger(opts);
+  };
 
-export const loggerPlugin: FarPlugin = (conf, { logger: appLogger }) => {
-  return async (ctx, next) => {
-    ctx.start_time = +new Date();
-    try {
-      await next();
-    } finally {
-      ctx.end_time = +new Date();
-      ctx.duration = ctx.end_time - ctx.start_time;
-      appLogger.info(stringify(ctx));
-    }
+  (innerLogger as any).create = create;
+
+  return innerLogger as typeof innerLogger & {
+    appendCtxLogField: typeof appendCtxLogField;
+    create: typeof create;
   };
 };
-
-loggerPlugin.name = 'logger';
-loggerPlugin.priority = -99;

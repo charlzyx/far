@@ -1,53 +1,23 @@
 import fastJson, { ObjectSchema, Schema } from 'fast-json-stringify';
 import Koa, { Context } from 'koa';
+import winston, { format } from 'winston';
+import { MESSAGE } from 'triple-beam';
+import jsonStringify from 'safe-stable-stringify';
 import _ from 'lodash';
 
 /**
  * 通过指定 JSON Schema 使用 fast-json-stringify 来获得更快的速度
  * https://github.com/fastify/fast-json-stringify
- * 这个在线工具用来将 ts 转换成 JSON Schema 描述
- * https://transform.tools/typescript-to-json-schema
  */
-export interface LogShape {
-  /**
-   * @description 下面这个类型的一部分
-   * @type BaseContext
-   **/
-  /** BaseContext[req] */
-  ip: string;
-  url: string;
-  origin: string;
-  href: string;
-  method: string;
-  host: string;
-  path: string;
-  /** 手机号参数加密 */
-  querystring: string;
-  // referer: string;
-  /** BaseContext[resp] */
-  status: number;
-  type: string;
-  /** ----下面都是追加的--- */
-  // 去掉中横线方便查询 'user-agent': string;
-  user_agent: string;
-  start_time: number;
-  end_time: number;
-  duration: number;
-  level: string;
-  msg: string;
-}
 
 const getSchema = (cache: typeof memo) => {
-  const props = [...cache.fields, ...cache.computedFields].reduce(
-    (map, item) => {
-      map = {
-        ...map,
-        ...item.schema,
-      };
-      return map;
-    },
-    {},
-  );
+  const props = cache.fields.reduce((map, item) => {
+    map = {
+      ...map,
+      ...item.schema,
+    };
+    return map;
+  }, {});
   return {
     type: 'object',
     properties: props,
@@ -55,7 +25,6 @@ const getSchema = (cache: typeof memo) => {
 };
 
 const memo = {
-  /** 一级字段直接扔个 ctx 就能取到, 不需要 loadash get  */
   fields: [
     { key: 'ip', path: 'ip', schema: { ip: { type: 'string' } } },
     { key: 'url', path: 'url', schema: { url: { type: 'string' } } },
@@ -91,9 +60,6 @@ const memo = {
     },
     { key: 'level', path: 'level', schema: { level: { type: 'string' } } },
     { key: 'msg', path: 'msg', schema: { msg: { type: 'string' } } },
-  ],
-  /** 需要 loadash get  */
-  computedFields: [
     {
       key: 'user_agent',
       path: 'headers.user-agent',
@@ -106,8 +72,8 @@ const memo = {
 // init build-ins
 memo.schema = getSchema(memo);
 
-/** 添加日志字段 */
-export const append = (
+/** 添加 ctx 请求日志字段 */
+export const appendCtxLogField = (
   /** 字段名称 */
   field: string,
   /** 在 ctx 中的路径, 默认去字段名 */
@@ -122,24 +88,68 @@ export const append = (
       [field]: { type },
     },
   } as any;
-  if (/\./.test(path || field)) {
-    memo.computedFields.push(desc);
-  } else {
-    memo.fields.push(desc);
-  }
+  memo.fields.push(desc);
   memo.schema = getSchema(memo);
 };
 
-const getData = (ctx: Context, cache: typeof memo) => {
-  const base = { ...ctx };
-  const final = cache.computedFields.reduce((data, item) => {
-    data[item.key] = _.get(data, item.path);
+const liteCtx = (ctx: Context, cache: typeof memo) => {
+  const final = cache.fields.reduce((data, item) => {
+    if (/\./.test(item.path)) {
+      data[item.key] = _.get(ctx, item.path);
+    } else {
+      data[item.key] = ctx[item.path];
+    }
     return data;
-  }, base);
+  }, {} as any);
   return final;
 };
 
+export const miniCtx = (ctx: Context) => liteCtx(ctx, memo);
+
 /** 尽可能快的 stringify */
-export const stringify = (ctx: Context) => {
-  return fastJson(memo.schema)(getData(ctx, memo));
+const logstashFastStringify = (data: any) => {
+  return fastJson({
+    type: 'object',
+    properties: {
+      '@message': { type: 'string' },
+      '@timestamp': { type: 'string' },
+      '@fields': memo.schema,
+    },
+  } as Schema)(data);
 };
+
+export const ctxFormat = format((info: any) => {
+  const logstash = {} as any;
+
+  if (info.timestamp) {
+    logstash['@timestamp'] = info.timestamp;
+    delete info.timestamp;
+  }
+
+  logstash['@fields'] = info.message;
+  delete info.message;
+  info[MESSAGE] = logstashFastStringify(logstash);
+  return info;
+});
+
+export const inlineFormat = format((info: any) => {
+  const stringifiedRest = jsonStringify(
+    Object.assign({}, info, {
+      level: undefined,
+      message: undefined,
+      splat: undefined,
+      label: undefined,
+    }),
+  );
+
+  const padding = (info.padding && info.padding[info.level]) || '';
+  if (stringifiedRest !== '{}') {
+    info[
+      MESSAGE
+    ] = `[${info.label}] ${info.level}:${padding} ${info.message} ${stringifiedRest}`;
+  } else {
+    info[MESSAGE] = `[${info.label}] ${info.level}:${padding} ${info.message}`;
+  }
+
+  return info;
+});

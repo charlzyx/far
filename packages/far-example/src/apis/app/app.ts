@@ -1,6 +1,14 @@
 import { tai } from '@rlx/tai';
 import { PageQuery, setPage } from '../share';
 
+const wait = (time = 1000) => {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve('');
+    }, time);
+  });
+};
+
 /**
  * Model App
  *
@@ -34,6 +42,9 @@ export const listApp = tai
   .desc('查看Applist')
   .get('/app/list')
   .go(async (input: PageQuery<Pick<App, 'name'>>, params) => {
+    // console.log('enter applist', +new Date());
     const list: App[] = [{ id: 777, name: '13', updateTime: new Date() }];
+    await wait(1000);
+    // console.log('resp applist', +new Date());
     return setPage(list, { current: 1, size: 10, total: 20 });
   });

@@ -3,7 +3,6 @@
   "version": "0.0.0",
   "description": "rlx node server",
   "scripts": {
-    "build": "tsup-node --dts",
     "dev": "far dev",
     "test": "jest"
   },
@@ -19,14 +18,13 @@
   "dependencies": {
     "@rlx/conf": "^1.0.3",
     "@rlx/far": "0.0.0",
-    "@rlx/tai": "^0.9.22",
+    "@rlx/far-plugin-tai": "0.0.0",
+    "@rlx/tai": "^0.10.1",
     "@types/koa": "^2.13.4",
-    "@types/koa-router": "^7.4.4",
     "@types/koa-static": "^4.0.2",
     "@types/prettier": "^2.4.2",
     "json-schema": "^0.4.0",
     "koa": "^2.13.4",
-    "koa-router": "^10.1.1",
     "koa-static": "^5.0.0",
     "prettier": "^2.5.1"
   }

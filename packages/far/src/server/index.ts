@@ -1,58 +1,73 @@
 import Koa from 'koa';
 import { FarConfig } from '../config';
-import { FarPlugin } from '../plugins';
-import { loggerInit, loggerPlugin } from '../logger';
-import KoaRouter from 'koa-router';
+import { FarPlugin, resortPlugins } from '../plugins';
+import { FarLogger, getLogger, plugin as httpLoggerPlugin } from '../logger';
+import { setAppLoggerInMemo } from '../logger/core';
+import KoaRouter from '@koa/router';
 
-const resortPlugins = (plugins: FarPlugin[]): FarPlugin[] => {
-  const clone = [...plugins];
-  clone.sort((a, b) => (a.priority || 0) - (b.priority || 0));
-  return clone;
-};
+declare module 'koa' {
+  interface DefaultContext {
+    /** 应用级 logger */
+    logger: FarLogger;
+  }
+}
 
 export const server = async (conf: FarConfig) => {
   const app = new Koa();
   const router = new KoaRouter();
-  const logger = loggerInit(conf);
+  const logger = getLogger(conf);
+
+  setAppLoggerInMemo(logger);
+
+  app.use(async (ctx, next) => {
+    /** 注入 appLogger */
+    ctx.logger = logger;
+    await next();
+  });
+
+  router.prefix(conf.server.basePath);
 
   const routerPlugin: FarPlugin = (_, { app: appInstace }) => {
-    appInstace.use(router.routes());
-    appInstace.use(router.allowedMethods());
+    return () => {
+      appInstace.use(router.routes());
+      appInstace.use(router.allowedMethods());
+      logger.info(router.stack);
+      logger.info('router done.');
+    };
   };
+
   routerPlugin.name = 'router';
 
   const sortedPlugins = resortPlugins([
-    loggerPlugin,
+    httpLoggerPlugin,
     routerPlugin,
     ...conf.plugins,
   ]);
 
-  const plugins = await Promise.all(
-    sortedPlugins.map((plugin) => {
-      return plugin(conf, { app, router, logger });
-    }),
-  );
-
   logger.info(`插件加载顺序::${sortedPlugins.map((x) => x.name).join(',')}`);
 
-  plugins.forEach(async (plug, idx) => {
-    if (plug) {
-      const name = sortedPlugins[idx].name;
-      if (!name) {
-        logger.error(`插件缺少名称::${sortedPlugins[idx]}`);
-      }
-      try {
-        if (Array.isArray(plug)) {
-          plug.forEach((p) => app.use(p));
+  let idx = 0;
+  for await (const plugin of sortedPlugins) {
+    const name = sortedPlugins[idx].name;
+    /** 注入 plugin 级别 logger */
+    const pluginLogger = getLogger(conf, `far-plugin-${name}`);
+    const plug = plugin(conf, { app, router, logger: pluginLogger });
+    idx++;
+    try {
+      if (typeof plug === 'function') {
+        await plug();
+      } else {
+        const using = plug.use!;
+        if (Array.isArray(using)) {
+          using.map((p) => app.use(p));
         } else {
-          app.use(plug);
+          app.use(using);
         }
-        logger.info(`注册插件::${name}`);
-      } catch (error) {
-        logger.error(`注册插件失败::${name}`, error);
       }
+    } catch (error) {
+      logger.error(`注册插件失败::${name}`, error);
     }
-  });
+  }
 
   return app.listen(
     {
