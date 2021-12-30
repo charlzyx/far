@@ -159,7 +159,7 @@
       "post": {
         "summary": "/app  ⚡️λ::appSaveUp",
         "deprecated": false,
-        "description": "    \n 💾  工程目录/src/apis/app/app.ts:22,13 ",
+        "description": "    \n 💾  工程目录/src/apis/app/app.ts:23,13 ",
         "parameters": [],
         "requestBody": {
           "title": "app",
@@ -219,7 +219,7 @@
       "delete": {
         "summary": "/app/{id}  ⚡️λ::delApp",
         "deprecated": false,
-        "description": "    \n 💾  工程目录/src/apis/app/app.ts:29,13 ",
+        "description": "    \n 💾  工程目录/src/apis/app/app.ts:30,13 ",
         "parameters": [
           {
             "in": "query",
@@ -274,7 +274,7 @@
       "get": {
         "summary": "/app/list  ⚡️λ::listApp",
         "deprecated": false,
-        "description": "    \n 💾  工程目录/src/apis/app/app.ts:41,13 ",
+        "description": "    \n 💾  工程目录/src/apis/app/app.ts:42,13 ",
         "parameters": [
           {
             "in": "query",

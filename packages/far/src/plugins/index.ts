@@ -4,6 +4,7 @@ import { FarConfig } from '../config';
 import { FarLogger, plugin as httpLogger } from '../logger';
 import { staticsPlugin } from './static';
 import { bodyParserPlugin } from './bodyParser';
+import { tracerPlugin } from './tracer';
 
 export const resortPlugins = (plugins: FarPlugin[]): FarPlugin[] => {
   const clone = [...plugins];
@@ -31,4 +32,9 @@ export interface FarPlugin {
   priority?: number;
 }
 
-export const buildins = [httpLogger, bodyParserPlugin, staticsPlugin];
+export const buildins = [
+  tracerPlugin,
+  httpLogger,
+  bodyParserPlugin,
+  staticsPlugin,
+];

@@ -1,10 +1,11 @@
 import { tai } from '@rlx/tai';
 import { PageQuery, setPage } from '../share';
-import { logger } from '@rlx/far';
+import { logger, useContext } from '@rlx/far';
 
-const wait = (time = 1000) => {
+const wait = (time = 1000, cb: () => void) => {
   return new Promise((resolve) => {
     setTimeout(() => {
+      cb();
       resolve('');
     }, time);
   });
@@ -43,10 +44,16 @@ export const listApp = tai
   .desc('查看Applist')
   .get('/app/list')
   .go(async (input: PageQuery<Pick<App, 'name'>>, params) => {
-    // console.log('enter applist', +new Date());
     const list: App[] = [{ id: 777, name: '13', updateTime: new Date() }];
-    await wait(233);
-    logger.info(JSON.stringify(list));
-    // console.log('resp applist', +new Date());
-    return setPage(list, { current: 1, size: 10, total: 20 });
+    const ctx = useContext() as any;
+    ctx.aaa = 333;
+    // const log = ctx.logger;
+
+    await wait(233, () => {
+      const ctx2 = useContext() as any;
+      ctx2.aaa++;
+    });
+    logger.info(ctx.aaa);
+    // log.info(JSON.stringify(list));
+    return setPage(list, { current: 1, size: ctx.aaa, total: 20 });
   });

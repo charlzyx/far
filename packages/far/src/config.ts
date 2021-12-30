@@ -2,6 +2,7 @@ import { Conf } from '@rlx/conf';
 import type { LoggerConfig } from './logger';
 import type { StaticsPluginConfig } from './plugins/static';
 import type { BodyParserPluginConfig } from './plugins/bodyParser';
+import type { TracerPluginConfig } from './plugins/tracer';
 import type { FarPlugin } from './plugins';
 
 export const APPNAME = 'far';
@@ -21,6 +22,7 @@ export type ShapeOfFarConfigDefaults = typeof FarConfigDefaults;
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface FarConfig
   extends ShapeOfFarConfigDefaults,
+    TracerPluginConfig,
     BodyParserPluginConfig,
     StaticsPluginConfig {
   logger?: LoggerConfig;

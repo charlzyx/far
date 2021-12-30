@@ -1294,10 +1294,10 @@
     eslint-plugin-node "^11.1.0"
     eslint-plugin-security "^1.4.0"
 
-"@rlx/tai@^0.10.1":
-  version "0.10.1"
-  resolved "http://npm.relxtech.com/@rlx%2ftai/-/tai-0.10.1.tgz#4d17f3b119056f12bdfda69cdc04b1727c10113a"
-  integrity sha512-uPwMM0TOY/6nPypffB1Mnm8O4BOIM9l35DTvliEoagKxMtLrJRJMkdyB+1SAzAOG1kKKgTLNTsoF96JAhvKGcQ==
+"@rlx/tai@^0.10.2":
+  version "0.10.2"
+  resolved "http://npm.relxtech.com/@rlx%2ftai/-/tai-0.10.2.tgz#35ee1c4413d05bfa3117b5a341a7c88cb93f7110"
+  integrity sha512-1SN67MkWVxB/Q0f2kqB6gNBJWa6EDF43rrmFiZasdtFRLTqJkKCKppYVTm5GJooWHN2puYUmWu26OtUHQzteZg==
   dependencies:
     "@rlx/conf" "^1.0.1"
     "@rlx/ts-json-schema-generator" "^0.97.0-patch4"
@@ -1561,6 +1561,11 @@
   version "1.3.2"
   resolved "https://registry.npmmirror.com/@types/triple-beam/download/@types/triple-beam-1.3.2.tgz#38ecb64f01aa0d02b7c8f4222d7c38af6316fef8"
   integrity sha1-OOy2TwGqDQK3yPQiLXw4r2MW/vg=
+
+"@types/uuid@^8.3.3":
+  version "8.3.3"
+  resolved "https://registry.npmmirror.com/@types/uuid/download/@types/uuid-8.3.3.tgz#c6a60686d953dbd1b1d45e66f4ecdbd5d471b4d0"
+  integrity sha512-0LbEEx1zxrYB3pgpd1M5lEhLcXjKJnYghvhTRgaBeUivLHMDM1TzF3IJ6hXU2+8uA4Xz+5BA63mtZo5DjVT8iA==
 
 "@typescript-eslint/eslint-plugin@^5.7.0":
   version "5.8.0"
@@ -2218,6 +2223,13 @@ clone@^1.0.2:
   version "1.0.4"
   resolved "https://registry.npmmirror.com/clone/download/clone-1.0.4.tgz#da309cc263df15994c688ca902179ca3c7cd7c7e"
   integrity sha1-2jCcwmPfFZlMaIypAheco8fNfH4=
+
+cls-rtracer@^2.6.0:
+  version "2.6.0"
+  resolved "https://registry.npmmirror.com/cls-rtracer/download/cls-rtracer-2.6.0.tgz#2d1965d8be80311bf9ba4782a7f53b921b267ab3"
+  integrity sha1-LRll2L6AMRv5ukeCp/U7khsmerM=
+  dependencies:
+    uuid "8.3.1"
 
 cmd-shim@^4.1.0:
   version "4.1.0"
@@ -7199,10 +7211,20 @@ util@^0.10.3:
   dependencies:
     inherits "2.0.3"
 
+uuid@8.3.1:
+  version "8.3.1"
+  resolved "https://registry.npmmirror.com/uuid/download/uuid-8.3.1.tgz#2ba2e6ca000da60fce5a196954ab241131e05a31"
+  integrity sha512-FOmRr+FmWEIG8uhZv6C2bTgEVXsHk08kE7mPlrBbEe+c3r9pjceVPgupIfNIhc4yx55H69OXANrUaSuu9eInKg==
+
 uuid@^3.3.2:
   version "3.4.0"
   resolved "https://registry.npmmirror.com/uuid/download/uuid-3.4.0.tgz#b23e4358afa8a202fe7a100af1f5f883f02007ee"
   integrity sha512-HjSDRw6gZE5JMggctHBcjVak08+KEVhSIiDzFnT9S9aegmp85S/bReBVTb4QTFaRNptJ9kuYaNhnbNEOkbKb/A==
+
+uuid@^8.3.2:
+  version "8.3.2"
+  resolved "https://registry.npmmirror.com/uuid/download/uuid-8.3.2.tgz#80d5b5ced271bb9af6c445f21a1a04c606cefbe2"
+  integrity sha512-+NYs2QeMWy+GWFOEm9xnn6HCDp0l7QBD7ml8zLUmJ+93Q5NF0NocErnwkTkXVFNiX3/fpC6afS8Dhb/gz7R7eg==
 
 v8-compile-cache@^2.0.3:
   version "2.3.0"
