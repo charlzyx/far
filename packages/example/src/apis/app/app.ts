@@ -1,5 +1,6 @@
 import { tai } from '@rlx/tai';
 import { PageQuery, setPage } from '../share';
+import { logger } from '@rlx/far';
 
 const wait = (time = 1000) => {
   return new Promise((resolve) => {
@@ -44,7 +45,8 @@ export const listApp = tai
   .go(async (input: PageQuery<Pick<App, 'name'>>, params) => {
     // console.log('enter applist', +new Date());
     const list: App[] = [{ id: 777, name: '13', updateTime: new Date() }];
-    await wait(1000);
+    await wait(233);
+    logger.info(JSON.stringify(list));
     // console.log('resp applist', +new Date());
     return setPage(list, { current: 1, size: 10, total: 20 });
   });

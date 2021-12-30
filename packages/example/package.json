@@ -12,20 +12,10 @@
   "keywords": [],
   "author": "xiaochao.yang",
   "license": "MIT",
-  "devDependencies": {
-    "@rlx/tai": "^0.9.21"
-  },
   "dependencies": {
     "@rlx/conf": "^1.0.3",
     "@rlx/far": "0.0.0",
     "@rlx/far-plugin-tai": "0.0.0",
-    "@rlx/tai": "^0.10.1",
-    "@types/koa": "^2.13.4",
-    "@types/koa-static": "^4.0.2",
-    "@types/prettier": "^2.4.2",
-    "json-schema": "^0.4.0",
-    "koa": "^2.13.4",
-    "koa-static": "^5.0.0",
-    "prettier": "^2.5.1"
+    "@rlx/tai": "^0.10.2"
   }
 }
