@@ -2,6 +2,15 @@ import { TaiApiShape, generator } from '@rlx/tai';
 import { FarPlugin } from '@rlx/far';
 import fs from 'fs';
 import SPECHTML from './spec';
+import path from 'path';
+
+export const isPROD = process.env.NODE_ENV === 'production';
+
+export const byPwd = (first: string, ...rest: string[]) => {
+  const isAbs = path.isAbsolute(first);
+  const prefix = isAbs ? first : process.cwd();
+  return path.resolve(prefix, isAbs ? '' : first, ...rest);
+};
 
 declare module '@rlx/far' {
   interface FarConfig {
@@ -61,12 +70,13 @@ export const taiRoutesPlugin: FarPlugin = async (conf, { router, logger }) => {
     entry: `${conf.tai.entry}/**/*.ts`,
     tsconfig: './tsconfig.json',
   });
+
   fs.writeFileSync(
-    `${conf?.public?.dir}/spec.json`,
+    byPwd(`${conf?.public?.dir}/spec.json`),
     JSON.stringify(spec, null, 2),
     'utf-8',
   );
-  fs.writeFileSync(`${conf?.public?.dir}/spec.html`, SPECHTML, 'utf-8');
+  fs.writeFileSync(byPwd(`${conf?.public?.dir}/spec.html`), SPECHTML, 'utf-8');
 
   Object.keys(apis).forEach((namespace) => {
     const api = apis[namespace];

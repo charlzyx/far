@@ -1,7 +1,9 @@
 export {
   logger,
+  createLoggerWithLabel,
+  transports,
+  modifyLogInfoByConf,
   FarLogger,
-  getTransportAndFormatByConf,
   LoggerConfig,
 } from './core';
 export { httpLoggerPlugin as plugin } from './plugin';

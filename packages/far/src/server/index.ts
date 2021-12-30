@@ -1,8 +1,12 @@
 import Koa from 'koa';
 import { FarConfig } from '../config';
 import { FarPlugin, buildins, resortPlugins } from '../plugins';
-import { FarLogger, getTransportAndFormatByConf, logger } from '../logger';
-import { setMemoLogger } from '../logger/core';
+import {
+  FarLogger,
+  createLoggerWithLabel,
+  logger,
+  modifyLogInfoByConf,
+} from '../logger';
 import KoaRouter from '@koa/router';
 
 declare module 'koa' {
@@ -15,9 +19,8 @@ declare module 'koa' {
 export const server = async (conf: FarConfig) => {
   const app = new Koa();
   const router = new KoaRouter({});
-  const coreLogger = logger.create(getTransportAndFormatByConf(conf));
 
-  setMemoLogger(logger);
+  modifyLogInfoByConf(conf);
 
   app.use(async (ctx, next) => {
     /** 注入 appLogger */
@@ -40,21 +43,15 @@ export const server = async (conf: FarConfig) => {
     ...conf.plugins,
   ]);
 
-  coreLogger.info(
-    `插件加载顺序::[${sortedPlugins.map((x) => x.name).join(',')}]`,
-  );
+  logger.info(`插件加载顺序::[${sortedPlugins.map((x) => x.name).join(',')}]`);
 
   let idx = 0;
   for await (const plugin of sortedPlugins) {
     const name = sortedPlugins[idx].name;
     /** 注入 plugin 级别 logger */
-    const pluginLogger = logger.create(
-      getTransportAndFormatByConf(
-        conf,
-        // 简化一下名字
-        `far-plugin-${name.replace(/plugins?/i, '')}`,
-      ),
-    );
+
+    const pluginLogger = createLoggerWithLabel(`far-plugin${name}`);
+
     const start_time = +new Date();
     /** 没有返回值就是一个 lazy 注册 */
     const plug = await plugin(conf, { app, router, logger: pluginLogger });
@@ -67,11 +64,11 @@ export const server = async (conf: FarConfig) => {
           app.use(plug);
         }
       }
-      coreLogger.info(`注册插件成功::${name}`);
+      logger.info(`注册插件成功::${name}`);
     } catch (error) {
-      coreLogger.error(`注册插件失败::${name}, ${(error as any).message}`);
+      logger.error(`注册插件失败::${name}, ${(error as any).message}`);
     } finally {
-      coreLogger.info(`插件::${name} 加载时长 ${+new Date() - start_time}ms`);
+      logger.info(`插件::${name} 加载时长 ${+new Date() - start_time}ms`);
     }
   }
 
@@ -81,7 +78,7 @@ export const server = async (conf: FarConfig) => {
       port: conf.server.port,
     },
     () => {
-      coreLogger.info(
+      logger.info(
         `starting at:: http://${conf.server.host}:${conf.server.port}${conf.server.basePath}`,
       );
     },

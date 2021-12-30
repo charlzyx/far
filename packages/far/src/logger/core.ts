@@ -1,113 +1,89 @@
 /** https://juejin.cn/post/6865926810061045774 */
 import winston from 'winston';
 import * as Transport from 'winston-transport';
-import { FarConfig } from '../config';
 import { byPwd, isPROD } from '../utils';
+import { FarConfig } from '../config';
 import DailyRotateFile from 'winston-daily-rotate-file';
-import { appendCtxLogField, inlineFormat } from './utils';
+import {
+  appendCtxLogField,
+  inlineFormat,
+  loggerLabel,
+  runTimeLabelFormat,
+} from './utils';
 
-export type FarLogger = typeof logger;
+// type LiteLogger = Pick<
+//   ReturnType<typeof winston.createLogger>,
+//   'error' | 'warn' | 'info' | 'debug'
+// >;
+type LiteLogger = ReturnType<typeof winston.createLogger>;
 
-type LiteLogger = Pick<
-  ReturnType<typeof winston.createLogger>,
-  'error' | 'warn' | 'info' | 'debug'
->;
-
-type LoggerOptions = Exclude<
-  Parameters<typeof winston.createLogger>[0],
-  undefined
->;
-
-export type LoggerConfig = {
-  dir: string;
-  opts?: Omit<LoggerOptions, 'transports'>;
+export type FarLogger = LiteLogger & {
+  appendCtxLogField: typeof appendCtxLogField;
 };
 
 export const loggerConfigDefaults: LoggerConfig = {
   dir: byPwd('logs'),
-  opts: {
-    level: isPROD ? 'info' : 'debug',
-  },
 };
+
+export type LoggerConfig = {
+  dir: string;
+};
+
+export const transports = {
+  console: new winston.transports.Console(),
+  daily: new DailyRotateFile({
+    filename: `logs/far-%DATE%.log`,
+    datePattern: 'YYYY-MM-DD-HH',
+    zippedArchive: true,
+    level: 'info',
+    maxSize: '200m',
+    maxFiles: '14d',
+  }),
+  dailyError: new DailyRotateFile({
+    filename: `logs/far-%DATE%-error.log`,
+    datePattern: 'YYYY-MM-DD-HH',
+    zippedArchive: true,
+    level: 'error',
+    maxSize: '200m',
+    maxFiles: '14d',
+  }),
+  filter: <T>(x: T[]) => x.filter(Boolean) as Exclude<T, undefined | null>[],
+};
+
+export const modifyLogInfoByConf = (conf: FarConfig) => {
+  loggerLabel.set(conf.appname || 'far');
+  transports.daily.filename = conf.logger?.dir + conf.appname || 'far';
+  transports.dailyError.filename = conf.logger?.dir + conf.appname || 'far';
+};
+
+export const formats = {
+  inline: inlineFormat(),
+};
+
+export const createLoggerWithLabel = (label: string, runtime?: boolean) => {
+  const labelLogger = winston.createLogger({
+    level: isPROD ? 'info' : 'debug',
+    transports: [transports.daily, transports.dailyError],
+    format: winston.format.combine(
+      winston.format.timestamp(),
+      runtime ? runTimeLabelFormat() : winston.format.label({ label: label }),
+    ),
+  }) as FarLogger;
+  labelLogger.appendCtxLogField = appendCtxLogField;
+  if (!isPROD) {
+    labelLogger.add(
+      new winston.transports.Console({
+        format: winston.format.combine(formats.inline),
+      }),
+    );
+  }
+  return labelLogger as FarLogger;
+};
+
+export const logger = createLoggerWithLabel('far', true);
 
 /** TODO: ES 和 链路追踪 的 transport, 参考 winston.transports.Console 实现 */
 interface RemoteTransport extends Transport {
   host: string;
   port: number;
 }
-
-const memo = {
-  transportsMap: isPROD
-    ? ({} as {
-        [key: string]: Transport;
-      })
-    : {
-        console: new winston.transports.Console(),
-      },
-  format: winston.format.simple(),
-  logger: winston.createLogger({}) as LiteLogger,
-};
-
-const create = (opts: LoggerOptions) => {
-  const innerLogger = winston.createLogger({
-    ...loggerConfigDefaults.opts,
-    ...opts,
-    format: opts.format ? opts.format : memo.format,
-    transports: opts.transports
-      ? opts.transports
-      : Object.values(memo.transportsMap),
-  });
-  (innerLogger as any).create = create;
-  (innerLogger as any).appendCtxLogField = appendCtxLogField;
-  return innerLogger as unknown as FarLogger;
-};
-
-export const getTransportAndFormatByConf = (
-  conf: FarConfig,
-  label?: string,
-) => {
-  const dailyTransport: DailyRotateFile = new DailyRotateFile({
-    filename: `${conf.logger?.dir}/${conf.appname}-%DATE%.log`,
-    datePattern: 'YYYY-MM-DD-HH',
-    zippedArchive: true,
-    maxSize: '20m',
-    maxFiles: '14d',
-  });
-
-  memo.transportsMap['daily'] = dailyTransport;
-  memo.format =
-    conf.logger?.opts?.format ||
-    winston.format.combine(
-      winston.format.timestamp(),
-      winston.format.label({
-        label: label || conf.appname || 'far',
-      }),
-      inlineFormat(),
-    );
-  return {
-    transports: Object.values(memo.transportsMap),
-    format: memo.format,
-  };
-};
-
-export const setMemoLogger = (logger: typeof memo.logger) => {
-  memo.logger = logger;
-};
-
-/** app logger */
-export const logger = new Proxy(memo.logger, {
-  get(target, key) {
-    if (key === 'create') {
-      return create;
-    } else if (key === 'appendCtxLogField') {
-      return appendCtxLogField;
-    } else {
-      return (memo.logger as any)[key];
-    }
-  },
-}) as typeof memo.logger & {
-  /** 创建一个新的 logger  */
-  create: typeof create;
-  /** 添加字段到内置的 http logger 上 */
-  appendCtxLogField: typeof appendCtxLogField;
-};

@@ -4,13 +4,16 @@ import { Conf } from '@rlx/conf';
 import commander from 'commander';
 import prettier from 'prettier';
 import { APPNAME, FarConfigDefaults } from '../config';
+import { byPwd } from '../utils';
+import fs from 'fs';
+import debugCode from './debug';
 import { devServer } from '../commands/dev';
 
 const program = new commander.Command();
 program.version('0.0.1');
 program
   .command('init')
-  .description('生成 「far」 的默认配置文件')
+  .description('生成 「far」 的默认配置文件和debug脚本')
   .action(async () => {
     const tpl = prettier.format(
       `import { defineConfig } from '@rlx/far'
@@ -27,6 +30,7 @@ program
       suffix: 'ts',
     });
     await genConf.load();
+    fs.writeFileSync(byPwd('./debug.ts'), debugCode, 'utf-8');
   });
 program
   .command('dev')

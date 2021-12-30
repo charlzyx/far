@@ -1,5 +1,7 @@
 import { FarPlugin } from '../plugins';
 import { ctxFormat, miniCtx } from './utils';
+import { transports } from './core';
+import { isPROD } from '../utils';
 import winston from 'winston';
 
 /** logger plugin */
@@ -11,9 +13,14 @@ declare module 'koa' {
   }
 }
 
-export const httpLoggerPlugin: FarPlugin = (conf, { logger }) => {
-  const httpLogger = logger.create({
+export const httpLoggerPlugin: FarPlugin = () => {
+  const httpLogger = winston.createLogger({
+    level: isPROD ? 'info' : 'debug',
     format: winston.format.combine(winston.format.timestamp(), ctxFormat()),
+    transports: transports.filter([
+      isPROD ? null : transports.console,
+      transports.daily,
+    ]),
   });
 
   return async (ctx, next) => {

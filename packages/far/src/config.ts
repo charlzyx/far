@@ -26,7 +26,7 @@ export interface FarConfig
   logger?: LoggerConfig;
 }
 
-export const defineConfig = (x: Partial<FarConfig>) => x;
+export const defineConfig = (x: Partial<FarConfig>) => x as FarConfig;
 
 export const loadConf = async () => {
   const conf = Conf.make(APPNAME, FarConfigDefaults as FarConfig);

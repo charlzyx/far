@@ -146,3 +146,18 @@ export const inlineFormat = format((info: any) => {
 
   return info;
 });
+
+export const loggerLabel = {
+  _label: 'far',
+  get() {
+    return this._label;
+  },
+  set(neo: string) {
+    this._label = neo;
+  },
+};
+
+export const runTimeLabelFormat = format((info: any) => {
+  info.label = loggerLabel.get();
+  return info;
+});
