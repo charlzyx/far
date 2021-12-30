@@ -1,6 +1,6 @@
 # `@rlx/far` 「發」
 
-> koa based
+> lightly node server framework, powered by koa.
 
 ## Arch
 - config

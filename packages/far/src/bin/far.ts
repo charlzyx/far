@@ -14,7 +14,6 @@ program
   .action(async () => {
     const tpl = prettier.format(
       `import { defineConfig } from '@rlx/far'
-       import logx from './src/middleware/logx'
        export default defineConfig(${JSON.stringify(
          FarConfigDefaults,
          null,

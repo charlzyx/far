@@ -44,16 +44,6 @@ const memo = {
     /** ----下面都是追加的--- */
     // 去掉中横线方便查询 'user-agent': string;
     {
-      key: 'start_time',
-      path: 'start_time',
-      schema: { start_time: { type: 'string' } },
-    },
-    {
-      key: 'end_time',
-      path: 'end_time',
-      schema: { end_time: { type: 'string' } },
-    },
-    {
       key: 'duration',
       path: 'duration',
       schema: { duration: { type: 'string' } },
@@ -139,6 +129,7 @@ export const inlineFormat = format((info: any) => {
       message: undefined,
       splat: undefined,
       label: undefined,
+      timestamp: undefined,
     }),
   );
 
@@ -146,9 +137,11 @@ export const inlineFormat = format((info: any) => {
   if (stringifiedRest !== '{}') {
     info[
       MESSAGE
-    ] = `[${info.label}] ${info.level}:${padding} ${info.message} ${stringifiedRest}`;
+    ] = `${info.timestamp} [${info.label}] ${info.level}:${padding} ${info.message} ${stringifiedRest}`;
   } else {
-    info[MESSAGE] = `[${info.label}] ${info.level}:${padding} ${info.message}`;
+    info[
+      MESSAGE
+    ] = `${info.timestamp} [${info.label}] ${info.level}:${padding} ${info.message}`;
   }
 
   return info;

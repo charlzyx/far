@@ -5,14 +5,15 @@ import { FarPlugin } from './index';
 import { logger } from '../logger';
 import { noop } from '../utils';
 
-export const pluginStatics: FarPlugin = (conf: FarConfig) => {
-  if (!conf.public) return noop;
-  const www = byPwd(conf.public);
-  logger.info(`public dir::${www}`);
-  return (ctx, next) => {
-    serve(www, {})(ctx, next);
-  };
+export type PublicConfig = {
+  dir: string;
 };
 
-pluginStatics.name = 'statics';
-pluginStatics.priority = 100;
+export const staticsPlugin: FarPlugin = (conf: FarConfig, { app }) => {
+  if (!conf.public?.dir) return noop;
+  const www = byPwd(conf.public.dir);
+  logger.info(`public dir::${www}`);
+  app.use(serve(www, {}));
+};
+
+staticsPlugin.priority = 100;

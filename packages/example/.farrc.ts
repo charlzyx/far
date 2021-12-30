@@ -5,13 +5,15 @@ import * as apis from './src/apis'
 // import logx from './src/middleware/logx'
 
 export default defineConfig({
-  appname: 'far-example',
+  appname: '發',
   apis,
   plugins: [taiRoutesPlugin],
   logger: {
-    logDir: 'logs'
+    dir: 'logs'
   },
-  public: './public',
+  public: {
+    dir: './public'
+  },
   server: {
     host: '127.0.0.1',
     port: '8888',

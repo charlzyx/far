@@ -1,7 +1,9 @@
 import Koa, { Context, Middleware } from 'koa';
 import KoaRouter from '@koa/router';
 import { FarConfig } from '../config';
-import { FarLogger } from '../logger';
+import { FarLogger, plugin as httpLogger } from '../logger';
+import { staticsPlugin } from './static';
+import { bodyParserPlugin } from './bodyParser';
 
 export const resortPlugins = (plugins: FarPlugin[]): FarPlugin[] => {
   const clone = [...plugins];
@@ -13,12 +15,7 @@ type MiddlewareLike =
   | Middleware<Koa.DefaultState, Context>
   | Middleware<Koa.DefaultState, Context>[];
 
-/** 懒惰的注册函数 */
-type LazyRegister = () => void | Promise<void>;
-type MiddlewareUseBox = {
-  /** 或者, use: 中间件 | 中间件[] */
-  use?: MiddlewareLike;
-};
+type AwaitedVoid = void | Promise<void>;
 
 export interface FarPlugin {
   (
@@ -29,9 +26,9 @@ export interface FarPlugin {
       /** 插件级 logger */
       logger: FarLogger;
     },
-  ): LazyRegister | MiddlewareUseBox;
-  /** 默认是插件的函数名称, 如果有的话... */
-  name?: string;
+  ): MiddlewareLike | AwaitedVoid;
   /** 权重, 值越小中间件越靠前 默认值 0 */
   priority?: number;
 }
+
+export const buildins = [httpLogger, bodyParserPlugin, staticsPlugin];
