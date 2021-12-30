@@ -14,7 +14,7 @@ declare module 'koa' {
 
 export const server = async (conf: FarConfig) => {
   const app = new Koa();
-  const router = new KoaRouter();
+  const router = new KoaRouter({});
   const coreLogger = logger.create(getTransportAndFormatByConf(conf));
 
   setMemoLogger(logger);
@@ -55,6 +55,7 @@ export const server = async (conf: FarConfig) => {
         `far-plugin-${name.replace(/plugins?/i, '')}`,
       ),
     );
+    const start_time = +new Date();
     /** 没有返回值就是一个 lazy 注册 */
     const plug = await plugin(conf, { app, router, logger: pluginLogger });
     idx++;
@@ -69,6 +70,8 @@ export const server = async (conf: FarConfig) => {
       coreLogger.info(`注册插件成功::${name}`);
     } catch (error) {
       coreLogger.error(`注册插件失败::${name}, ${(error as any).message}`);
+    } finally {
+      coreLogger.info(`插件::${name} 加载时长 ${+new Date() - start_time}ms`);
     }
   }
 
@@ -78,7 +81,7 @@ export const server = async (conf: FarConfig) => {
       port: conf.server.port,
     },
     () => {
-      logger.info(
+      coreLogger.info(
         `starting at:: http://${conf.server.host}:${conf.server.port}${conf.server.basePath}`,
       );
     },

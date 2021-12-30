@@ -102,7 +102,7 @@ export const logger = new Proxy(memo.logger, {
     } else if (key === 'appendCtxLogField') {
       return appendCtxLogField;
     } else {
-      return Reflect.get(target, key);
+      return (memo.logger as any)[key];
     }
   },
 }) as typeof memo.logger & {

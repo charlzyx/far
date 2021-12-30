@@ -6,8 +6,11 @@ import * as apis from './src/apis'
 
 export default defineConfig({
   appname: '發',
-  apis,
   plugins: [taiRoutesPlugin],
+  tai: {
+    apis,
+    entry: './src/apis',
+  },
   logger: {
     dir: 'logs'
   },

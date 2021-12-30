@@ -1463,6 +1463,13 @@
   dependencies:
     "@types/koa" "*"
 
+"@types/koa-mount@^4.0.1":
+  version "4.0.1"
+  resolved "https://registry.npmmirror.com/@types/koa-mount/download/@types/koa-mount-4.0.1.tgz#2994be86eaa3d9dc97365e6ebfa227cee3c5f157"
+  integrity sha1-KZS+huqj2dyXNl5uv6InzuPF8Vc=
+  dependencies:
+    "@types/koa" "*"
+
 "@types/koa-send@*":
   version "4.1.3"
   resolved "https://registry.npmmirror.com/@types/koa-send/download/@types/koa-send-4.1.3.tgz#17193c6472ae9e5d1b99ae8086949cc4fd69179d"
@@ -2618,7 +2625,7 @@ dateformat@^3.0.0:
   resolved "https://registry.npmmirror.com/dateformat/download/dateformat-3.0.3.tgz#a6e37499a4d9a9cf85ef5872044d62901c9889ae"
   integrity sha1-puN0maTZqc+F71hyBE1ikByYia4=
 
-debug@4, debug@^4.0.0, debug@^4.1.0, debug@^4.1.1, debug@^4.3.1, debug@^4.3.2, debug@^4.3.3:
+debug@4, debug@^4.0.0, debug@^4.0.1, debug@^4.1.0, debug@^4.1.1, debug@^4.3.1, debug@^4.3.2, debug@^4.3.3:
   version "4.3.3"
   resolved "https://registry.npmmirror.com/debug/download/debug-4.3.3.tgz#04266e0b70a98d4462e6e288e38259213332b664"
   integrity sha512-/zxw5+vh1Tfv+4Qn7a5nsbcJKPaSvCDhojn6FEl9vupwK2VCSDtEiEtqr8DFtzYFOdz63LBkxec7DYuc2jon6Q==
@@ -4573,6 +4580,14 @@ koa-convert@^2.0.0:
   integrity sha1-hqDETYHUBVG64i/uZwmQRXPupPU=
   dependencies:
     co "^4.6.0"
+    koa-compose "^4.1.0"
+
+koa-mount@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.npmmirror.com/koa-mount/download/koa-mount-4.0.0.tgz#e0265e58198e1a14ef889514c607254ff386329c"
+  integrity sha1-4CZeWBmOGhTviJUUxgclT/OGMpw=
+  dependencies:
+    debug "^4.0.1"
     koa-compose "^4.1.0"
 
 koa-send@^5.0.0:

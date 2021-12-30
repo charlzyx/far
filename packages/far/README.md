@@ -5,16 +5,15 @@
 ## Arch
 - config
 - plugins
-- api, 路由 done
   - @rlx/tai
+- api, 路由 done
 - als
   - hooks
   - traceId, traceLog
 - auth
   - sso
   - abac
-- log4js
-  - /data/log/app/*.log
+- winston
   - es
 - db
   - redis

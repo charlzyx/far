@@ -1,0 +1,538 @@
+{
+  "components": {
+    "schemas": {
+      "OmitAppupdateTime": {
+        "$ref": "#/components/schemas/PickAppExcludeidnameupdateTimeupdateTime"
+      },
+      "PickAppExcludeidnameupdateTimeupdateTime": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number"
+          },
+          "name": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "name"
+        ],
+        "additionalProperties": false
+      },
+      "Version": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number"
+          },
+          "summary": {
+            "type": "string"
+          },
+          "appId": {
+            "type": "number"
+          },
+          "status": {
+            "$ref": "#/components/schemas/VersionStatus"
+          }
+        },
+        "required": [
+          "id",
+          "summary",
+          "appId",
+          "status"
+        ],
+        "additionalProperties": false,
+        "description": "Model Version"
+      },
+      "VersionStatus": {
+        "type": "string",
+        "enum": [
+          "release",
+          "deprecated",
+          "notready"
+        ]
+      },
+      "AppListResponse": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "number"
+            },
+            "name": {
+              "type": "string"
+            },
+            "updateTime": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          "required": [
+            "id",
+            "name",
+            "updateTime"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "ShapePage«AppListResponse»": {
+        "type": "object",
+        "properties": {
+          "current": {
+            "type": "number"
+          },
+          "size": {
+            "type": "number"
+          },
+          "total": {
+            "type": "number"
+          },
+          "records": {
+            "$ref": "#/components/schemas/AppListResponse"
+          }
+        },
+        "required": [
+          "current",
+          "records",
+          "size",
+          "total"
+        ],
+        "additionalProperties": false
+      },
+      "VersionResponse": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "number"
+            },
+            "summary": {
+              "type": "string"
+            },
+            "appId": {
+              "type": "number"
+            },
+            "status": {
+              "$ref": "#/components/schemas/VersionStatus"
+            }
+          },
+          "required": [
+            "appId",
+            "id",
+            "status",
+            "summary"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "ShapePage«VersionResponse»": {
+        "type": "object",
+        "properties": {
+          "current": {
+            "type": "number"
+          },
+          "size": {
+            "type": "number"
+          },
+          "total": {
+            "type": "number"
+          },
+          "records": {
+            "$ref": "#/components/schemas/VersionResponse"
+          }
+        },
+        "required": [
+          "current",
+          "records",
+          "size",
+          "total"
+        ],
+        "additionalProperties": false
+      }
+    }
+  },
+  "paths": {
+    "/app": {
+      "post": {
+        "summary": "/app  ⚡️λ::appSaveUp",
+        "deprecated": false,
+        "description": "    \n 💾  工程目录/src/apis/app/app.ts:21,13 ",
+        "parameters": [],
+        "requestBody": {
+          "title": "app",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OmitAppupdateTime",
+                "title": "app"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "resp",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "number"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "neo": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "number"
+                        },
+                        "name": {
+                          "type": "string"
+                        }
+                      },
+                      "additionalProperties": false
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "name",
+                    "neo"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "app"
+        ]
+      }
+    },
+    "/app/{id}": {
+      "delete": {
+        "summary": "/app/{id}  ⚡️λ::delApp",
+        "deprecated": false,
+        "description": "    \n 💾  工程目录/src/apis/app/app.ts:28,13 ",
+        "parameters": [
+          {
+            "in": "query",
+            "description": "面对疾风吧",
+            "name": "面对疾风吧",
+            "schema": {
+              "type": "string",
+              "const": ""
+            }
+          },
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "string",
+              "required": true
+            },
+            "description": "id in path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "resp",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    },
+                    "id": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "message"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "app"
+        ]
+      }
+    },
+    "/app/list": {
+      "get": {
+        "summary": "/app/list  ⚡️λ::listApp",
+        "deprecated": false,
+        "description": "    \n 💾  工程目录/src/apis/app/app.ts:40,13 ",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "name",
+            "description": "name",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "current",
+            "description": "current",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "in": "query",
+            "name": "size",
+            "description": "size",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "resp",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ShapePage«AppListResponse»"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "app"
+        ]
+      }
+    },
+    "/version/{appId}": {
+      "post": {
+        "summary": "/version/{appId}  ⚡️λ::appVersionSaveUp",
+        "deprecated": false,
+        "description": "    \n 💾  工程目录/src/apis/version/version.ts:21,13 ",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "appId",
+            "schema": {
+              "type": "string",
+              "required": true
+            },
+            "description": "appId in path"
+          }
+        ],
+        "requestBody": {
+          "title": "version",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Version",
+                "title": "version"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "resp",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "number"
+                    },
+                    "summary": {
+                      "type": "string"
+                    },
+                    "appId": {
+                      "type": "number"
+                    },
+                    "status": {
+                      "$ref": "#/components/schemas/VersionStatus"
+                    }
+                  },
+                  "required": [
+                    "appId",
+                    "id",
+                    "status",
+                    "summary"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "version"
+        ]
+      }
+    },
+    "/version/{id}": {
+      "delete": {
+        "summary": "/version/{id}  ⚡️λ::delAppVersion",
+        "deprecated": false,
+        "description": "    \n 💾  工程目录/src/apis/version/version.ts:28,13 ",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "string",
+              "required": true
+            },
+            "description": "id in path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "resp",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "message"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "version"
+        ]
+      }
+    },
+    "/version/{appId}/list": {
+      "get": {
+        "summary": "/version/{appId}/list  ⚡️λ::listApp",
+        "deprecated": false,
+        "description": "    \n 💾  工程目录/src/apis/version/version.ts:38,13 ",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "appId",
+            "schema": {
+              "type": "string",
+              "required": true
+            },
+            "description": "appId in path"
+          },
+          {
+            "in": "query",
+            "name": "summary",
+            "description": "summary",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "status",
+            "description": "status",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "release",
+                "deprecated",
+                "notready"
+              ]
+            }
+          },
+          {
+            "in": "query",
+            "name": "current",
+            "description": "current",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "in": "query",
+            "name": "size",
+            "description": "size",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "resp",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ShapePage«VersionResponse»"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "version"
+        ]
+      }
+    }
+  },
+  "openapi": "3.0.0",
+  "servers": [
+    {
+      "url": "http://{host}:{port}/{basePath}",
+      "description": "接口地址",
+      "variables": {
+        "host": {
+          "default": "127.0.0.1",
+          "description": "主机地址"
+        },
+        "port": {
+          "default": "8888",
+          "description": "端口号"
+        },
+        "basePath": {
+          "default": "",
+          "description": "basePath"
+        }
+      }
+    }
+  ],
+  "info": {
+    "description": "# 很多人就是不爱写文档 \n> 又一把疾风之剑?!",
+    "version": "1.0.0",
+    "title": "far-plugin-tai",
+    "termsOfService": "https://fe.relxtech.com/",
+    "contact": {
+      "email": "xiaochao.yang@relxtech.com",
+      "name": "杨小超"
+    },
+    "license": {
+      "name": "Apache 2.0",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+    }
+  }
+}
