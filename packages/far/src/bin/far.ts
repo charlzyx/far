@@ -5,9 +5,11 @@ import commander from 'commander';
 import prettier from 'prettier';
 import { APPNAME, FarConfigDefaults } from '../config';
 import { byPwd } from '../utils';
+import { getFont } from './randomfont';
 import fs from 'fs';
+import figlet from 'figlet';
 import debugCode from './debug';
-import { devServer } from '../commands/dev';
+import { devServer } from '../server/devServer';
 
 const program = new commander.Command();
 program.version('0.0.1');
@@ -36,7 +38,8 @@ program
   .command('dev')
   .description('启动一个 「far」 开发服务...')
   .action(async () => {
-    console.log(`dev server starting...`);
+    const banner = figlet.textSync('far「發」!', { font: getFont() });
+    console.log(banner);
     await devServer();
   });
 program.parse(process.argv);

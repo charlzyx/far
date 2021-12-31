@@ -5,22 +5,22 @@
 
 ## Arch
 - config
-- plugins
-  - @rlx/tai
-- api, 路由 done
+  - plugins
+    [koa middleware]
+  - hooks
+    [als hooks]
 - als
   - hooks
   - traceId, traceLog
+  - sync redis???
 - auth
   - sso
-  - abac
 - winston
   - es
 - db
-  - redis
-  - mysql
-    - prisma.js
-- todo:
+  - prisma.js
+    - mysql
+- TODO:
   - schedule 定时任务
   - mq
   - rpc
@@ -28,7 +28,10 @@
 
 ## cli
 - create
-  - local docker-compose
+  - template
+    - example local docker-compose
+    - plugin
+    - hooks
 - dev
 - build
 - start

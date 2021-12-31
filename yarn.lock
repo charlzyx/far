@@ -1424,6 +1424,11 @@
     "@types/qs" "*"
     "@types/serve-static" "*"
 
+"@types/figlet@^1.5.4":
+  version "1.5.4"
+  resolved "https://registry.npmmirror.com/@types/figlet/download/@types/figlet-1.5.4.tgz#54a426d63e921a9bca44102c5b1b1f206fa56d93"
+  integrity sha1-VKQm1j6SGpvKRBAsWxsfIG+lbZM=
+
 "@types/http-assert@*":
   version "1.5.3"
   resolved "https://registry.npmmirror.com/@types/http-assert/download/@types/http-assert-1.5.3.tgz#ef8e3d1a8d46c387f04ab0f2e8ab8cb0c5078661"
@@ -3373,6 +3378,11 @@ fecha@^4.2.0:
   version "4.2.1"
   resolved "https://registry.npmmirror.com/fecha/download/fecha-4.2.1.tgz#0a83ad8f86ef62a091e22bb5a039cd03d23eecce"
   integrity sha1-CoOtj4bvYqCR4iu1oDnNA9I+7M4=
+
+figlet@^1.5.2:
+  version "1.5.2"
+  resolved "https://registry.npmmirror.com/figlet/download/figlet-1.5.2.tgz#dda34ff233c9a48e36fcff6741aeb5bafe49b634"
+  integrity sha1-3aNP8jPJpI42/P9nQa61uv5JtjQ=
 
 figures@^2.0.0:
   version "2.0.0"
