@@ -28,8 +28,16 @@ export interface FarPlugin {
       logger: FarLogger;
     },
   ): MiddlewareLike | AwaitedVoid;
-  /** 权重, 值越小中间件越靠前 默认值 0 */
-  priority?: number;
+  /**
+   * import { PLUGIN_PRIORITY  } from '@rlx/far'
+   * 权重, 值越小中间件越靠前 默认值 0
+   * @usage
+   * PLUGIN_PRIORITY.CORE
+   * PLUGIN_PRIORITY.CORE - 1
+   * PLUGIN_PRIORITY.CORE + 1
+   */
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  priority?: PLUGIN_PRIORITY | (number & {});
 }
 
 export const buildins = [
@@ -38,3 +46,13 @@ export const buildins = [
   bodyParserPlugin,
   staticsPlugin,
 ];
+
+/**
+ * 基本顺序
+ */
+// eslint-disable-next-line no-shadow
+export const enum PLUGIN_PRIORITY {
+  CORE = 0,
+  DB = 100,
+  ROUTE = 200,
+}

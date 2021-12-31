@@ -35,7 +35,7 @@ export const server = async (conf: FarConfig) => {
     appInstace.use(router.allowedMethods());
   };
 
-  routerPlugin.priority = 0;
+  routerPlugin.priority = 100;
 
   const sortedPlugins = resortPlugins([
     ...buildins,

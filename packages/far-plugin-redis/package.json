@@ -1,0 +1,33 @@
+{
+  "name": "@rlx/far-plugin-redis",
+  "version": "0.0.0",
+  "description": "rlx node server",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsup-node --dts",
+    "test": "jest"
+  },
+  "tsup": {
+    "splitting": false,
+    "sourcemap": true,
+    "clean": true,
+    "target": "node14",
+    "entryPoints": [
+      "src/index.ts"
+    ]
+  },
+  "engines": {
+    "node": ">=14"
+  },
+  "keywords": [],
+  "author": "xiaochao.yang",
+  "license": "MIT",
+  "dependencies": {
+    "@rlx/far": "0.0.0",
+    "@rlx/tai": "^0.10.2",
+    "@types/redis": "^4.0.11",
+    "redis": "^4.0.1"
+  },
+  "devDependencies": {}
+}

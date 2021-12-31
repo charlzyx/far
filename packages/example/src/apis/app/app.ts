@@ -25,6 +25,14 @@ export const appSaveUp = tai
   .desc('保存/更新App')
   .post('/app')
   .go(async (app: Omit<App, 'updateTime'>) => {
+    const ctx = useCtx(); // Koa ctx!!
+
+    await wait(233, () => {
+      const ctx2 = useCtx(); // ctx2 === ctx
+      ctx2.logger === logger; // ✨
+    });
+
+    ctx.logger.info('ohhhhhhhh');
     return { id: 1, name: '', neo: app };
   });
 
@@ -45,16 +53,6 @@ export const listApp = tai
   .get('/app/list')
   .go(async (input: PageQuery<Pick<App, 'name'>>, params) => {
     const list: App[] = [{ id: 777, name: '13', updateTime: new Date() }];
-    const ctx = useCtx();
-    console.log({ ww: 'wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww', ctx });
-    (ctx as any).aaa = 333;
-    // const log = ctx.logger;
 
-    await wait(233, () => {
-      const ctx2 = useCtx();
-      (ctx as any).aaa++;
-    });
-    logger.info((ctx as any).aaa);
-    // log.info(JSON.stringify(list));
-    return setPage(list, { current: 1, size: (ctx as any).aaa, total: 20 });
+    return setPage(list, { current: 1, size: 10, total: 20 });
   });

@@ -69,7 +69,7 @@ export const appendCtxLogField = (
   /** 在 ctx 中的路径, 默认去字段名 */
   path?: string,
   /** 数据类型, 字符串和数字应该够用了 */
-  type?: 'string' | 'number',
+  type: 'string' | 'number' = 'string',
 ) => {
   const desc = {
     key: field,

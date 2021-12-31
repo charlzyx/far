@@ -14,13 +14,13 @@ const tracerPluginConfigDefaults: TracerPluginConfig['tracer'] = {
   headerName: 'X-Request-Id',
 };
 
-export const tracerPlugin: FarPlugin = (conf: FarConfig, { app }) => {
-  app.use(
-    koaMiddleware({
-      ...tracerPluginConfigDefaults,
-      ...conf.tracer,
-    }),
-  );
+export const tracerPlugin: FarPlugin = (conf: FarConfig, { app, logger }) => {
+  const opts = {
+    ...tracerPluginConfigDefaults,
+    ...conf.tracer,
+  };
+  app.use(koaMiddleware(opts));
+  logger.appendCtxLogField(opts.headerName!, `headers.${opts.headerName}`);
   return async (ctx, next) => {
     const [, clear] = useMemory('ctx', ctx);
     await next();
