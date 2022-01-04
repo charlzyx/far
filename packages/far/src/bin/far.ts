@@ -9,7 +9,7 @@ import { getFont } from './randomfont';
 import fs from 'fs';
 import figlet from 'figlet';
 import debugCode from './debug';
-import { devServer } from '../server/devServer';
+// import { devServer } from '../server/devServer';
 
 const program = new commander.Command();
 program.version('0.0.1');
@@ -26,12 +26,11 @@ program
        )});`,
       { semi: false, singleQuote: true },
     );
-    const genConf = Conf.make(APPNAME, FarConfigDefaults, {
+    await Conf.make(APPNAME, FarConfigDefaults, {
       content: tpl,
       generateIfNoExist: true,
       suffix: 'ts',
     });
-    await genConf.load();
     fs.writeFileSync(byPwd('./debug.ts'), debugCode, 'utf-8');
   });
 program
@@ -40,6 +39,7 @@ program
   .action(async () => {
     const banner = figlet.textSync('far「發」!', { font: getFont() });
     console.log(banner);
+    const { devServer } = await import('@rlx/far');
     await devServer();
   });
 program.parse(process.argv);

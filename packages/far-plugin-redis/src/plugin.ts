@@ -1,6 +1,5 @@
-import { FarPlugin } from '@rlx/far';
+import { FarPlugin, PLUGIN_PRIORITY, Store, setCacheDB } from '@rlx/far';
 import { createClient, createCluster } from 'redis';
-import { useRedis } from './hook';
 import path from 'path';
 
 export const isPROD = process.env.NODE_ENV === 'production';
@@ -22,6 +21,7 @@ declare module '@rlx/far' {
   }
 }
 
+const TTL_SECONDS = 3; // seconds
 const isClientOption = (
   opt: RedisOption | RedisClusterOption,
 ): opt is RedisOption => {
@@ -35,7 +35,7 @@ const isClusterOption = (
 
 export const redisPlugin: FarPlugin = async (conf, { logger }) => {
   const opts = conf.redis;
-  if (opts) return;
+  if (!opts) return;
   const client = isClientOption(opts) ? createClient(opts) : undefined;
   const cluster = isClusterOption(opts) ? createCluster(opts) : undefined;
   const anyway = client || cluster;
@@ -46,11 +46,38 @@ export const redisPlugin: FarPlugin = async (conf, { logger }) => {
   anyway?.on('error', logger.error);
   await anyway?.connect();
   logger.info('redis connect success!');
-  useRedis(anyway as any);
+  const redisStore: Store = {
+    async get(sid) {
+      if (anyway === client) {
+        return await client.get(sid);
+      } else {
+        return await cluster!.get(sid);
+      }
+    },
+    async set(sid, neo, ttl) {
+      if (anyway === client) {
+        return await client.set(sid, neo, {
+          EX: ttl ?? TTL_SECONDS,
+        });
+      } else {
+        return await cluster!.set(sid, neo, {
+          EX: ttl ?? TTL_SECONDS,
+        });
+      }
+    },
+    async del(sid) {
+      if (anyway === client) {
+        return await client.del(sid);
+      } else {
+        return await cluster!.del(sid);
+      }
+    },
+  };
+  setCacheDB(redisStore);
   process.on('exit', () => {
     /** cluster 不知道怎么退出, 先写个 client 吧 */
     client?.quit();
   });
 };
 
-redisPlugin.priority = 0;
+redisPlugin.priority = PLUGIN_PRIORITY.DB;

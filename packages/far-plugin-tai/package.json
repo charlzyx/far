@@ -11,8 +11,11 @@
   "tsup": {
     "splitting": false,
     "sourcemap": true,
+    "format": [
+      "cjs"
+    ],
     "clean": true,
-    "target": "node14",
+    "target": "node16",
     "entryPoints": [
       "src/index.ts"
     ]
@@ -25,8 +28,7 @@
   "license": "MIT",
   "dependencies": {
     "@rlx/far": "0.0.0",
-
-    "@rlx/tai": "^0.10.2"
+    "@rlx/tai": "^0.10.8"
   },
   "devDependencies": {}
 }

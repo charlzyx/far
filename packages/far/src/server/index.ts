@@ -1,5 +1,6 @@
 import Koa from 'koa';
 import { FarConfig } from '../config';
+import { isPROD } from '../utils';
 import { FarPlugin, buildins, resortPlugins } from '../plugins';
 import {
   FarLogger,
@@ -50,13 +51,14 @@ export const server = async (conf: FarConfig) => {
     const name = sortedPlugins[idx].name;
     /** 注入 plugin 级别 logger */
 
-    const pluginLogger = createLoggerWithLabel(`far-plugin${name}`);
+    // const pluginLogger = createLoggerWithLabel(`far-plugin${name}`);
+    const pluginLogger = logger;
 
     const start_time = +new Date();
-    /** 没有返回值就是一个 lazy 注册 */
-    const plug = await plugin(conf, { app, router, logger: pluginLogger });
-    idx++;
     try {
+      /** 没有返回值就是一个 lazy 注册 */
+      const plug = await plugin(conf, { app, router, logger: pluginLogger });
+      idx++;
       if (plug) {
         if (Array.isArray(plug)) {
           plug.map((p) => app.use(p));
@@ -66,6 +68,9 @@ export const server = async (conf: FarConfig) => {
       }
       logger.info(`注册插件成功::${name}`);
     } catch (error) {
+      if (isPROD) {
+        console.error(error);
+      }
       logger.error(`注册插件失败::${name}, ${(error as any).message}`);
     } finally {
       logger.info(`插件::${name} 加载时长 ${+new Date() - start_time}ms`);

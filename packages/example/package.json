@@ -13,9 +13,9 @@
   "author": "xiaochao.yang",
   "license": "MIT",
   "dependencies": {
-    "@rlx/conf": "^1.0.3",
     "@rlx/far": "0.0.0",
+    "@rlx/far-plugin-redis": "0.0.0",
     "@rlx/far-plugin-tai": "0.0.0",
-    "@rlx/tai": "^0.10.2"
+    "@rlx/tai": "^0.10.8"
   }
 }

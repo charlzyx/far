@@ -2,7 +2,7 @@ import { koaMiddleware } from 'cls-rtracer';
 import { FarConfig } from '../config';
 import { FarPlugin } from './index';
 import { v4 as uuidv4 } from 'uuid';
-import { useMemory } from '../hooks';
+// import { useRawMemory } from '../hooks';
 
 export type TracerPluginConfig = {
   tracer?: Parameters<typeof koaMiddleware>[0];
@@ -21,11 +21,6 @@ export const tracerPlugin: FarPlugin = (conf: FarConfig, { app, logger }) => {
   };
   app.use(koaMiddleware(opts));
   logger.appendCtxLogField(opts.headerName!, `headers.${opts.headerName}`);
-  return async (ctx, next) => {
-    const [, clear] = useMemory('ctx', ctx);
-    await next();
-    clear();
-  };
 };
 
 tracerPlugin.priority = Number.MIN_SAFE_INTEGER;

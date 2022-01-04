@@ -31,9 +31,6 @@ export interface FarConfig
 export const defineConfig = (x: Partial<FarConfig>) => x as FarConfig;
 
 export const loadConf = async () => {
-  const conf = Conf.make(APPNAME, FarConfigDefaults as FarConfig);
-
-  await conf.load();
-
+  const conf = await Conf.make(APPNAME, FarConfigDefaults as FarConfig);
   return conf;
 };

@@ -1,8 +1,9 @@
 import Koa, { Context, Middleware } from 'koa';
 import KoaRouter from '@koa/router';
 import { FarConfig } from '../config';
-import { FarLogger, plugin as httpLogger } from '../logger';
+import { FarLogger, plugin as httpLoggerPlugin } from '../logger';
 import { staticsPlugin } from './static';
+import { memoHooksPlugin } from './memoHooks';
 import { bodyParserPlugin } from './bodyParser';
 import { tracerPlugin } from './tracer';
 
@@ -31,7 +32,7 @@ export interface FarPlugin {
   /**
    * import { PLUGIN_PRIORITY  } from '@rlx/far'
    * 权重, 值越小中间件越靠前 默认值 0
-   * @usage
+   * @example
    * PLUGIN_PRIORITY.CORE
    * PLUGIN_PRIORITY.CORE - 1
    * PLUGIN_PRIORITY.CORE + 1
@@ -41,8 +42,9 @@ export interface FarPlugin {
 }
 
 export const buildins = [
+  memoHooksPlugin,
   tracerPlugin,
-  httpLogger,
+  httpLoggerPlugin,
   bodyParserPlugin,
   staticsPlugin,
 ];

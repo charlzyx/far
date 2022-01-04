@@ -11,8 +11,9 @@
   "tsup": {
     "splitting": false,
     "sourcemap": true,
+    "format": ["cjs"],
     "clean": true,
-    "target": "node14",
+    "target": "node16",
     "entryPoints": [
       "src/index.ts"
     ]

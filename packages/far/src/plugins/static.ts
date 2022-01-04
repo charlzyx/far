@@ -1,7 +1,7 @@
 import serve from 'koa-static';
 import { FarConfig } from '../config';
 import { byPwd } from '../utils';
-import { FarPlugin } from './index';
+import { FarPlugin, PLUGIN_PRIORITY } from './index';
 import { noop } from '../utils';
 
 export type StaticsPluginConfig = {
@@ -17,4 +17,4 @@ export const staticsPlugin: FarPlugin = (conf: FarConfig, { app, logger }) => {
   app.use(serve(www, {}));
 };
 
-staticsPlugin.priority = 1;
+staticsPlugin.priority = PLUGIN_PRIORITY.ROUTE + 100;

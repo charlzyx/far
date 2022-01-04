@@ -5,10 +5,13 @@
 import { id as getIdByAlsStore } from 'cls-rtracer';
 import { Context } from 'koa';
 
+const memorize = new Map();
+
 export type Store<T = any> = {
-  get(sid: string | number): T | Promise<T>;
-  set(sid: string | number, data: T, ttl?: number): T | Promise<T>;
-  destory(sid: string | number): void | boolean | Promise<void | boolean>;
+  get(sid: string): T | Promise<T>;
+  set(sid: string, data: T, ttl?: number): T | Promise<T>;
+  del(sid: string): any | Promise<any>;
+  destory?(sid: string | number): any | Promise<any>;
 };
 
 export interface StoreSpace {
@@ -19,7 +22,6 @@ export interface CacheSpace {
   readonly user: { nothing: 'here' };
 }
 
-const memorize = new Map();
 const CACHEDBKEY = '__cachedb__';
 
 const memoryStore: Store = {
@@ -27,7 +29,11 @@ const memoryStore: Store = {
     return memorize.get(sid);
   },
   set(sid, data) {
-    return memorize.set(sid, data);
+    memorize.set(sid, data);
+    return memorize.get(sid);
+  },
+  del(sid) {
+    return memorize.delete(sid);
   },
   destory(sid) {
     return memorize.delete(sid);
@@ -36,26 +42,32 @@ const memoryStore: Store = {
 
 type Clear = () => void;
 
-/** 每个请求结束之后就会销毁 */
-export const useMemory = <K extends keyof StoreSpace, T = StoreSpace[K]>(
+/**
+ * 直接在缓存中的存储, 跟 cache 的区别是每个请求结束之后就会销毁 */
+export const useRawMemory = <K extends keyof StoreSpace, T = StoreSpace[K]>(
   namespace: K,
-  getter?: T | (() => T),
+  initializer?: T | (() => T),
 ): [T, Clear] => {
   const uuid = getIdByAlsStore() as string;
   const sid = `${namespace}:${uuid}`;
-  const clear = () => memoryStore.destory(uuid);
+  const clear = () => {
+    console.log('wtfffffffffffffffff');
+    // return memoryStore?.destory?.(uuid);
+  };
   let init: T = undefined as unknown as T;
-  if (getter) {
-    if (typeof getter === 'function') {
-      init = (getter as () => T)();
+  if (initializer) {
+    if (typeof initializer === 'function') {
+      init = (initializer as () => T)();
     } else {
-      init = getter;
+      init = initializer;
     }
   }
   if (init) {
     memoryStore.set(sid, init);
   }
-  return [memoryStore.get(sid), clear];
+  const ret = memoryStore.get(sid);
+  // console.log({ ret });
+  return [ret, clear];
 };
 
 export const setCacheDB = (cachedb: Store) => {
@@ -63,17 +75,23 @@ export const setCacheDB = (cachedb: Store) => {
 };
 
 /** 根据 ttl 时长缓存 */
-export const useCache = <K extends keyof CacheSpace, R = CacheSpace[K]>(
-  cacheKey: K,
-  getter?: R | (() => R) | (() => Promise<R>),
+export const useRawCache = async <
+  K extends keyof CacheSpace,
+  CacheKey extends string,
+  R = CacheSpace[K],
+>(
+  namespace: K,
+  key: CacheKey,
+  initializer?: R | (() => R) | (() => Promise<R>),
   ttl?: number,
-): R => {
+): Promise<R> => {
   // const uuid = getIdByAlsStore() as string;
-  const sid = `${CACHEDBKEY}:${cacheKey}`;
+  const sid = `${namespace}:${key}`;
 
   const store = memorize.get(CACHEDBKEY) as Store;
-  if (getter) {
-    store.set(sid, JSON.stringify(getter), ttl);
+  if (initializer) {
+    await store.set(sid, JSON.stringify(initializer), ttl);
   }
-  return JSON.parse(store.get(sid)) as R;
+  const raw = await store.get(sid);
+  return JSON.parse(raw) as R;
 };

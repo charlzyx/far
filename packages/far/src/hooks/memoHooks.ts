@@ -1,5 +1,5 @@
 import { Context } from 'koa';
-import { useMemory } from './core';
+import { useRawMemory } from './core';
 import Cookies from 'cookies';
 
 /**
@@ -26,7 +26,7 @@ export const useCtx = <
 >(
   key?: K,
 ): R => {
-  const [ctx] = useMemory('ctx');
+  const [ctx] = useRawMemory('ctx');
   return key === undefined ? ctx : ctx[key as any];
 };
 
