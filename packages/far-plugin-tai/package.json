@@ -1,6 +1,6 @@
 {
   "name": "@rlx/far-plugin-tai",
-  "version": "0.8.0",
+  "version": "1.0.0",
   "description": "rlx node server",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -27,7 +27,7 @@
   "author": "xiaochao.yang",
   "license": "MIT",
   "dependencies": {
-    "@rlx/far": "^0.8.0",
+    "@rlx/far": "^1.0.0",
     "@rlx/tai": "^1.0.0"
   }
 }
