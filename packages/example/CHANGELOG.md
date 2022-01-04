@@ -1,0 +1,14 @@
+# Change Log
+
+All notable changes to this project will be documented in this file.
+See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
+# 0.8.0 (2022-01-04)
+
+
+### Features
+
+* 添加 README ([631f151](https://git.corp.relxtech.com/fe/far/commits/631f151c25bca50628f07f590d68307a92eacbc9))
+* 添加debug 脚本 ([499707f](https://git.corp.relxtech.com/fe/far/commits/499707f0e75f5d3a73e9697823205c86b664201f))
+* **core,plugin,hooks,docs:** 🎉0.8 to release, todo is build and start ([870eac6](https://git.corp.relxtech.com/fe/far/commits/870eac668ca1e2c5788800530fc8ca1319056acb))
+* **hooks:** hooks coming! ([78aca8e](https://git.corp.relxtech.com/fe/far/commits/78aca8e8c5965027fe193aca55a0dadda5bc695c))
