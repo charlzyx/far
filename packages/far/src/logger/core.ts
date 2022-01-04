@@ -66,7 +66,8 @@ export const createLoggerWithLabel = (label: string, runtime?: boolean) => {
     transports: [transports.daily, transports.dailyError],
     format: winston.format.combine(
       winston.format.timestamp(),
-      runtime ? runTimeLabelFormat() : winston.format.label({ label: label }),
+      runTimeLabelFormat(),
+      formats.inline,
     ),
   }) as FarLogger;
   labelLogger.appendCtxLogField = appendCtxLogField;
