@@ -1,9 +1,6 @@
 import { defineConfig } from '@rlx/far'
 import { plugin as taiRoutesPlugin } from '@rlx/far-plugin-tai'
 import { plugin as redisPlugin } from '@rlx/far-plugin-redis'
-// import * as apis from './src/apis'
-
-// import logx from './src/middleware/logx'
 
 export default defineConfig({
   appname: '發',
