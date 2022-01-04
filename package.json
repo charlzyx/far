@@ -1,6 +1,6 @@
 {
   "name": "root",
-  "version": "0.0.0",
+  "version": "0.7.9",
   "description": "Boilerplate for monorepo typescript project",
   "main": "index.js",
   "keywords": [],

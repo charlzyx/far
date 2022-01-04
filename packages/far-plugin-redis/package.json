@@ -1,6 +1,6 @@
 {
   "name": "@rlx/far-plugin-redis",
-  "version": "0.0.0",
+  "version": "0.7.9",
   "description": "rlx node server",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
