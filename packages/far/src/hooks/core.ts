@@ -51,8 +51,7 @@ export const useRawMemory = <K extends keyof StoreSpace, T = StoreSpace[K]>(
   const uuid = getIdByAlsStore() as string;
   const sid = `${namespace}:${uuid}`;
   const clear = () => {
-    console.log('wtfffffffffffffffff');
-    // return memoryStore?.destory?.(uuid);
+    return memoryStore?.destory?.(uuid);
   };
   let init: T = undefined as unknown as T;
   if (initializer) {
@@ -89,8 +88,16 @@ export const useRawCache = async <
   const sid = `${namespace}:${key}`;
 
   const store = memorize.get(CACHEDBKEY) as Store;
+  let init: R = undefined as unknown as R;
   if (initializer) {
-    await store.set(sid, JSON.stringify(initializer), ttl);
+    if (typeof initializer === 'function') {
+      init = (initializer as () => R)();
+    } else {
+      init = initializer;
+    }
+  }
+  if (init) {
+    await store.set(sid, JSON.stringify(init), ttl);
   }
   const raw = await store.get(sid);
   return JSON.parse(raw) as R;

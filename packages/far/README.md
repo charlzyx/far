@@ -4,26 +4,27 @@
 
 
 ## Arch
-- config
-  - plugins
+- [√]config
+  - [√]plugins
     [koa middleware]
-  - hooks
+  - [√]hooks
     [als hooks]
-- als
-  - hooks
-  - traceId, traceLog
-  - sync redis???
+- [√]als
+  - [√]hooks
+  - [√]traceId, traceLog
+  - [√]sync redis
 - auth
   - sso
-- winston
-  - es
-- db
-  - prisma.js
-    - mysql
+- [√]winston
+  - log undefined
+  - [x]es
+- [x]db
+  - [x]prisma.js
+    - [x]mysql
 - TODO:
-  - schedule 定时任务
-  - mq
-  - rpc
+  - [x]schedule 定时任务
+  - [x]mq
+  - [x]rpc
   - node 性能监控
 
 ## cli

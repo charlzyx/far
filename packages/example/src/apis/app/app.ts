@@ -55,12 +55,14 @@ export const listApp = tai
     const myKey = new Date().toISOString();
     await useRawCache('user', myKey, 'haha');
     const ctx = useCtx(); // Koa ctx!!
+    // const cookies = useCtx('cookies'); // Koa ctx!!
     const cahce2 = await useRawCache('user', myKey); // ctx2 === ctx
 
     await wait(233, () => {
       const ctx2 = useCtx(); // ctx2 === ctx
       // console.log({ logger, ctx2 });
-      ctx2.logger === logger; // ✨
+      ctx2.logger.info('');
+      // ctx2.logger === logger; // ✨
       logger.info(cahce2);
     });
 
