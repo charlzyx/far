@@ -32,6 +32,7 @@ export const taiRoutesPlugin: FarPlugin = async (conf, { router, logger }) => {
   const entry = byPwd(conf.tai.entry);
   try {
     if (!conf.tai.apis) {
+      /** TODO: how to build */
       await tsup.build({ entry: [entry], outDir: output });
     }
   } catch (error) {

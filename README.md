@@ -205,6 +205,13 @@ bodyParserPlugin.priority = PLUGIN_PRIORITY.CORE - 1;
 
 ## 插件开发
 
+## 约定
+> 虽然, 当前插件需要手动 import 和 set (FarConfig.plugins 字段), 但为了后续自定义读取 package.json 加载插件, 约定如下
+
+- 自定义插件导出变量名为 `plugin`, 同时设置为具名函数, 方便log
+- 自定义`hooks` 导出变量名为 `hooks`
+
+
 ### 常用 interface
 
 - FarConfig 用来拓展配置字段和类型, 示例: `packages/far-plugin-tai/plugin.ts`

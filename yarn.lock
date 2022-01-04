@@ -1285,10 +1285,10 @@
     lodash "^4.17.21"
     ts-options-defaults "^2.0.5"
 
-"@rlx/conf@^2.0.0-beta9.1":
-  version "2.0.0-beta9.1"
-  resolved "http://npm.relxtech.com/@rlx%2fconf/-/conf-2.0.0-beta9.1.tgz#c76d846efa0491cdff6ab04c902d29c082c239fe"
-  integrity sha512-bFZfJoPBv42Z0PMkdTJDlr2l9s90dL7qdTZC9IqkoPslqAk6m30mJLezB6CILQplejYLBV4bz7MX1u5pwqE9Tw==
+"@rlx/conf@^2.0.0":
+  version "2.0.0"
+  resolved "http://npm.relxtech.com/@rlx%2fconf/-/conf-2.0.0.tgz#cbd0066a186813a5be400aace6008b2dd3f32255"
+  integrity sha512-Fa5SJFgfDkFwMmj+TOXAOysCWS52eHv2NwjHUPrqpN/P/ExNNpmOdhzZlv257Uy0HxDJZsA4RiUEww868Y1bNQ==
   dependencies:
     immer "^9.0.7"
     js-yaml "^4.1.0"
@@ -1335,12 +1335,12 @@
     openapi-types "^10.0.0"
     prettier "^2.5.1"
 
-"@rlx/tai@^0.10.8":
-  version "0.10.8"
-  resolved "http://npm.relxtech.com/@rlx%2ftai/-/tai-0.10.8.tgz#c9c513a9e96e7b82666e116e82d3c9f98b1840ca"
-  integrity sha512-JU7Gy8OYu6ELIkyGL1YOJpuA4Nlhzf7fIafi3bTMZ+3Bt7sC67e6CaXBZfUxW1Hhi3oVCM+83yOe33aPTwKUKQ==
+"@rlx/tai@^1.0.0":
+  version "1.0.0"
+  resolved "http://npm.relxtech.com/@rlx%2ftai/-/tai-1.0.0.tgz#47cc0f4fae218a8b7a02e85e73578a8b66c783be"
+  integrity sha512-UZZ1qRn2Ul1zszNJzybe9dGBYWIQ11RM9RcR6jsr+CbORjxNLCQX4f0bICzM/56ERwxGO0btL/AtZa/eV6UnuQ==
   dependencies:
-    "@rlx/conf" "^2.0.0-beta9.1"
+    "@rlx/conf" "^2.0.0"
     "@rlx/ts-json-schema-generator" "^0.97.0-patch4"
     commander "^8.3.0"
     glob "^7.2.0"

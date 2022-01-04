@@ -16,6 +16,6 @@
     "@rlx/far": "0.0.0",
     "@rlx/far-plugin-redis": "0.0.0",
     "@rlx/far-plugin-tai": "0.0.0",
-    "@rlx/tai": "^0.10.8"
+    "@rlx/tai": "^1.0.0"
   }
 }
