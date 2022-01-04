@@ -1,7 +1,14 @@
-export { FarConfig, defineConfig, FarConfigDefaults, loadConf } from './config';
+export {
+  FarConfig,
+  FarPreBuild,
+  defineConfig,
+  FarConfigDefaults,
+  loadConf,
+} from './config';
 export { FarPlugin, PLUGIN_PRIORITY } from './plugins';
 export { server } from './server';
 export { devServer } from './server/devServer';
+export { build } from './server/build';
 export { logger } from './logger';
 export {
   useCtx,

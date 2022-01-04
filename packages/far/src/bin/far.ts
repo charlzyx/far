@@ -3,13 +3,14 @@
 import { Conf } from '@rlx/conf';
 import commander from 'commander';
 import prettier from 'prettier';
-import { APPNAME, FarConfigDefaults } from '../config';
+import { APPNAME, FarConfigDefaults, loadConf } from '../config';
+import { spawnSync } from 'child_process';
 import { byPwd } from '../utils';
 import { getFont } from './randomfont';
 import fs from 'fs';
 import figlet from 'figlet';
 import debugCode from './debug';
-// import { devServer } from '../server/devServer';
+import { build } from '../server/build';
 
 const program = new commander.Command();
 program.version('0.0.1');
@@ -33,14 +34,48 @@ program
     });
     fs.writeFileSync(byPwd('./debug.ts'), debugCode, 'utf-8');
   });
+
 program
   .command('dev')
   .description('启动一个 「far」 开发服务...')
   .action(async () => {
     const banner = figlet.textSync('far「發」!', { font: getFont() });
     console.log(banner);
-    const { devServer } = await import('@rlx/far');
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    const { devServer } = require('@rlx/far/dist/index.js');
     await devServer();
   });
+
+program
+  .command('build')
+  .description('build 「far」app ...')
+  .action(async () => {
+    const banner = figlet.textSync('far「發」!', { font: getFont() });
+    console.log(banner);
+    await build();
+  });
+
+program
+  .command('start')
+  .description('start 「far」server ...')
+  .action(async () => {
+    const banner = figlet.textSync('far「發」!', { font: getFont() });
+    const config = await loadConf();
+    const workdir = byPwd(config.outDir);
+    console.log(banner);
+    const cli = `node ${workdir}/index.js`;
+    console.log(
+      `run cli: ${cli}\n强制追加了 process.env.NODE_ENV==='production'\n当然, 你也可以直接调用这个命令`,
+    );
+    spawnSync(cli, {
+      shell: true,
+      env: {
+        ...process.env,
+        NODE_ENV: 'production',
+      },
+      stdio: 'inherit',
+    });
+  });
+
 program.parse(process.argv);
 program.usage();

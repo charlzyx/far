@@ -1,5 +1,5 @@
 import { TaiApiShape } from '@rlx/tai';
-import { FarPlugin, PLUGIN_PRIORITY } from '@rlx/far';
+import { FarPlugin, FarPreBuild, PLUGIN_PRIORITY } from '@rlx/far';
 import path from 'path';
 import * as tsup from 'tsup';
 
@@ -26,21 +26,37 @@ type TApis = {
   };
 };
 
-const output = byPwd('./node_modules', '.farcache');
+const output = (conf: Parameters<FarPreBuild>[0]) =>
+  isPROD
+    ? byPwd(conf.outDir, './far-tai-routes')
+    : byPwd('./node_modules', 'far-tai-routes');
+
+export const preBuilder: FarPreBuild = async (conf) => {
+  const out = output(conf);
+  const entry = byPwd(conf.tai.entry);
+  await tsup.build({
+    entry: [entry],
+    outDir: out,
+    clean: false,
+    target: 'node16',
+    format: ['cjs'],
+  });
+};
 
 export const taiRoutesPlugin: FarPlugin = async (conf, { router, logger }) => {
-  const entry = byPwd(conf.tai.entry);
   try {
-    if (!conf.tai.apis) {
-      /** TODO: how to build */
-      await tsup.build({ entry: [entry], outDir: output });
+    if (!isPROD && !conf.tai.apis) {
+      await preBuilder(conf);
     }
   } catch (error) {
     console.log('error', error);
   }
 
+  if (!conf.tai.apis) {
+    logger.info(`load apis by require(${output(conf)})`);
+  }
   // eslint-disable-next-line @typescript-eslint/no-var-requires
-  const apis = conf.tai.apis ?? (require(output) as TApis);
+  const apis = conf.tai.apis ?? (require(output(conf)) as TApis);
 
   Object.keys(apis).forEach((namespace) => {
     const api = apis[namespace];
@@ -78,3 +94,4 @@ export const taiRoutesPlugin: FarPlugin = async (conf, { router, logger }) => {
 };
 
 taiRoutesPlugin.priority = PLUGIN_PRIORITY.ROUTE - 1;
+taiRoutesPlugin.preBuilder = preBuilder;

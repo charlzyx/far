@@ -15,6 +15,7 @@ export const FarConfigDefaults = {
     port: '8888',
     basePath: '',
   },
+  outDir: 'dist',
 };
 
 export type ShapeOfFarConfigDefaults = typeof FarConfigDefaults;
@@ -34,3 +35,5 @@ export const loadConf = async () => {
   const conf = await Conf.make(APPNAME, FarConfigDefaults as FarConfig);
   return conf;
 };
+
+export type FarPreBuild = (conf: FarConfig) => void | Promise<void>;

@@ -2,12 +2,7 @@ import Koa from 'koa';
 import { FarConfig } from '../config';
 import { isPROD } from '../utils';
 import { FarPlugin, buildins, resortPlugins } from '../plugins';
-import {
-  FarLogger,
-  createLoggerWithLabel,
-  logger,
-  modifyLogInfoByConf,
-} from '../logger';
+import { FarLogger, logger, modifyLogInfoByConf } from '../logger';
 import KoaRouter from '@koa/router';
 
 declare module 'koa' {
@@ -68,10 +63,12 @@ export const server = async (conf: FarConfig) => {
       }
       logger.info(`注册插件成功::${name}`);
     } catch (error) {
-      if (isPROD) {
-        console.error(error);
-      }
-      logger.error(`注册插件失败::${name}, ${(error as any).message}`);
+      console.error(error);
+      logger.error(
+        `注册插件失败::${name}, ${
+          (error as any).message || (error as any).stack
+        }`,
+      );
     } finally {
       logger.info(`插件::${name} 加载时长 ${+new Date() - start_time}ms`);
     }

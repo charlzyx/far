@@ -1295,6 +1295,16 @@
     lodash "^4.17.21"
     ts-options-defaults "^2.0.5"
 
+"@rlx/conf@^2.0.1":
+  version "2.0.1"
+  resolved "http://npm.relxtech.com/@rlx%2fconf/-/conf-2.0.1.tgz#e549d4ab5ee3279145b5868a6b5e145257237d8e"
+  integrity sha512-YsGycVTbFKZOugGn5KOG3ZdE29n1qgxEWQj8N3YSvn5ll36wp13zER8qrylj6tA+ZACjF0n4dudZ3Zpl3LuEnQ==
+  dependencies:
+    immer "^9.0.7"
+    js-yaml "^4.1.0"
+    lodash "^4.17.21"
+    ts-options-defaults "^2.0.5"
+
 "@rlx/eslint-config-base@^2.0.4":
   version "2.0.4"
   resolved "http://npm.relxtech.com/@rlx%2feslint-config-base/-/eslint-config-base-2.0.4.tgz#c2fa7d0962a52b995eff5ec8d702ea7fa656c1e7"
@@ -1352,7 +1362,7 @@
     openapi-types "^10.0.0"
     prettier "^2.5.1"
 
-"@rlx/ts-import-sync@^2.0.40-patch1", "@rlx/ts-import-sync@^2.0.40-patch5":
+"@rlx/ts-import-sync@^2.0.40-patch1":
   version "2.0.40-patch5"
   resolved "http://npm.relxtech.com/@rlx%2fts-import-sync/-/ts-import-sync-2.0.40-patch5.tgz#065a14125319dc79f458fbb20d013687b0f86c3a"
   integrity sha512-dq4ULiSpOTJ1wbimrbqCUlur7rEvNQWoJqwGsXe3/fPnK1gTlFzgxayIFn6tdo1Q29ekjMy9ntSaUAXoL1WWsw==
@@ -7097,6 +7107,26 @@ tsup@^5.11.1:
   version "5.11.9"
   resolved "https://registry.npmmirror.com/tsup/download/tsup-5.11.9.tgz#2feab9d1c6c2ac14840eb6a1f40c91c3a6c367f2"
   integrity sha512-APFcd9qKblMVO35O5OyIcfa4lwBrVNinwtifUojO78I6j0aDhS4fQ06gq6vF1b/+Z83pYDWNb0R2fmO9PX3IVQ==
+  dependencies:
+    bundle-require "^2.1.8"
+    cac "^6.7.12"
+    chokidar "^3.5.1"
+    debug "^4.3.1"
+    esbuild "^0.14.2"
+    execa "^5.0.0"
+    globby "^11.0.3"
+    joycon "^3.0.1"
+    postcss-load-config "^3.0.1"
+    resolve-from "^5.0.0"
+    rollup "^2.60.0"
+    source-map "^0.7.3"
+    sucrase "^3.20.3"
+    tree-kill "^1.2.2"
+
+tsup@^5.11.10:
+  version "5.11.10"
+  resolved "https://registry.npmmirror.com/tsup/download/tsup-5.11.10.tgz#02ceaf7f131ed5e1012bbe07a31e5957f686d7eb"
+  integrity sha512-z8YzbPyF8Vvj37h+TY84AfvlmKZtBTRuWwRETWUbfckMj854WeLkuRQV8vRyoY8bLJQhnKWlLge/3fVbFZGERg==
   dependencies:
     bundle-require "^2.1.8"
     cac "^6.7.12"

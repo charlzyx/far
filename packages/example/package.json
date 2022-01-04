@@ -4,6 +4,8 @@
   "description": "rlx node server",
   "scripts": {
     "dev": "far dev",
+    "bbd": "far build",
+    "start": "far start",
     "test": "jest"
   },
   "engines": {
@@ -13,9 +15,9 @@
   "author": "xiaochao.yang",
   "license": "MIT",
   "dependencies": {
-    "@rlx/far": "0.0.0",
-    "@rlx/far-plugin-redis": "0.0.0",
-    "@rlx/far-plugin-tai": "0.0.0",
+    "@rlx/far": "^0.8.0",
+    "@rlx/far-plugin-redis": "^0.7.10",
+    "@rlx/far-plugin-tai": "^0.8.0",
     "@rlx/tai": "^1.0.0"
   }
 }
