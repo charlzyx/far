@@ -1,7 +1,11 @@
 import Koa from 'koa';
 import { FarConfig } from '../config';
-import { isPROD } from '../utils';
-import { FarPlugin, buildins, resortPlugins } from '../plugins';
+import {
+  FarPlugin,
+  PLUGIN_PRIORITY,
+  buildins,
+  resortPlugins,
+} from '../plugins';
 import { FarLogger, logger, modifyLogInfoByConf } from '../logger';
 import KoaRouter from '@koa/router';
 
@@ -31,7 +35,7 @@ export const server = async (conf: FarConfig) => {
     appInstace.use(router.allowedMethods());
   };
 
-  routerPlugin.priority = 100;
+  routerPlugin.priority = PLUGIN_PRIORITY.ROUTE;
 
   const sortedPlugins = resortPlugins([
     ...buildins,

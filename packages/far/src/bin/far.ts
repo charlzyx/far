@@ -10,7 +10,7 @@ import { getFont } from './randomfont';
 import fs from 'fs';
 import figlet from 'figlet';
 import debugCode from './debug';
-import { build } from '../server/build';
+import { build } from './build';
 
 const program = new commander.Command();
 program.version('0.0.1');
@@ -52,20 +52,25 @@ program
   .action(async () => {
     const banner = figlet.textSync('far「發」!', { font: getFont() });
     console.log(banner);
-    await build();
+    try {
+      await build();
+    } catch (error) {
+      console.log(error);
+    }
   });
 
 program
   .command('start')
   .description('start 「far」server ...')
   .action(async () => {
+    process.env.NODE_ENV = 'production';
     const banner = figlet.textSync('far「發」!', { font: getFont() });
-    const config = await loadConf();
-    const workdir = byPwd(config.outDir);
+    const config = await loadConf(true);
     console.log(banner);
-    const cli = `node ${workdir}/index.js`;
+    const cli = `node ${config.outDir} index.js`;
     console.log(
-      `run cli: ${cli}\n强制追加了 process.env.NODE_ENV==='production'\n当然, 你也可以直接调用这个命令`,
+      `run cli: ${cli}\n强制追加了 process.env.NODE_ENV==='production'\n
+当然, 你也可以直接调用这个命令`.trim(),
     );
     spawnSync(cli, {
       shell: true,

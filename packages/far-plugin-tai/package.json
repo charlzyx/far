@@ -21,13 +21,14 @@
     ]
   },
   "engines": {
-    "node": ">=14"
+    "node": ">=16"
   },
   "keywords": [],
   "author": "xiaochao.yang",
   "license": "MIT",
   "dependencies": {
     "@rlx/far": "^1.0.0",
-    "@rlx/tai": "^1.0.0"
+    "@rlx/tai": "^1.0.1",
+    "openapi-types": "^10.0.0"
   }
 }

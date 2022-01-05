@@ -9,8 +9,7 @@ export default defineConfig({
     url: 'redis://localhost:6379'
   },
   tai: {
-    // apis,
-    entry: './src/apis',
+    apiDir: './src/apis',
   },
   logger: {
     dir: 'logs'

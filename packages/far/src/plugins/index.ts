@@ -1,6 +1,6 @@
 import Koa, { Context, Middleware } from 'koa';
 import KoaRouter from '@koa/router';
-import { FarConfig, FarPreBuild } from '../config';
+import { FarConfig, FarConfigResolver } from '../config';
 import { FarLogger, plugin as httpLoggerPlugin } from '../logger';
 import { staticsPlugin } from './static';
 import { memoHooksPlugin } from './memoHooks';
@@ -39,7 +39,7 @@ export interface FarPlugin {
    */
   // eslint-disable-next-line @typescript-eslint/ban-types
   priority?: PLUGIN_PRIORITY | (number & {});
-  preBuilder?: FarPreBuild;
+  confResolver?: FarConfigResolver;
 }
 
 export const buildins = [

@@ -1345,10 +1345,10 @@
     openapi-types "^10.0.0"
     prettier "^2.5.1"
 
-"@rlx/tai@^1.0.0":
-  version "1.0.0"
-  resolved "http://npm.relxtech.com/@rlx%2ftai/-/tai-1.0.0.tgz#47cc0f4fae218a8b7a02e85e73578a8b66c783be"
-  integrity sha512-UZZ1qRn2Ul1zszNJzybe9dGBYWIQ11RM9RcR6jsr+CbORjxNLCQX4f0bICzM/56ERwxGO0btL/AtZa/eV6UnuQ==
+"@rlx/tai@^1.0.1":
+  version "1.0.1"
+  resolved "http://npm.relxtech.com/@rlx%2ftai/-/tai-1.0.1.tgz#2c538aff7e08c2ed907e4b8589edec217bc4d307"
+  integrity sha512-0EBF3SMhwEIS1j3HaUESgLYOgXqrXJJEL4eysj5g73A8zVvDYV378OaTQR2xsXtWs/o+xhGXQRx7jFK1HzsLsw==
   dependencies:
     "@rlx/conf" "^2.0.0"
     "@rlx/ts-json-schema-generator" "^0.97.0-patch4"

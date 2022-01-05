@@ -1,6 +1,6 @@
 # `@rlx/far` 「發」
 
-> 面向未来「云函数」的轻量级 functional node 服务框架, powered by koa.
+> Far At Remote 面向未来「云函数」的轻量级 functional node 服务框架, powered by koa.
 
 ---
 
