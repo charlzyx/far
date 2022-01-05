@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.1.0](https://git.corp.relxtech.com/fe/far/compare/@rlx/far@1.0.0...@rlx/far@1.1.0) (2022-01-05)
+
+
+### Features
+
+* **core,plugin:** add configresolver on plugin ([9900d7c](https://git.corp.relxtech.com/fe/far/commits/9900d7cfcf9b66cc2c4b012da1b89b6e6d171d0c))
+
+
+
+
+
 # [1.0.0](https://git.corp.relxtech.com/fe/far/compare/@rlx/far@0.8.0...@rlx/far@1.0.0) (2022-01-04)
 
 
