@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.2.0](https://git.corp.relxtech.com/fe/far/compare/@rlx/far-plugin-tai@1.1.0...@rlx/far-plugin-tai@1.2.0) (2022-01-06)
+
+
+### Features
+
+* **logger,hooks:** 添加 traceId loginfo, 添加 hooks useRequestId ([0a3109b](https://git.corp.relxtech.com/fe/far/commits/0a3109b86110fc9b55749fea0b116edbace25825))
+
+
+
+
+
 # [1.1.0](https://git.corp.relxtech.com/fe/far/compare/@rlx/far-plugin-tai@1.0.0...@rlx/far-plugin-tai@1.1.0) (2022-01-05)
 
 

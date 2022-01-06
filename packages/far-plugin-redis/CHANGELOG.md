@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.1](https://git.corp.relxtech.com/fe/far/compare/@rlx/far-plugin-redis@1.1.0...@rlx/far-plugin-redis@1.1.1) (2022-01-06)
+
+**Note:** Version bump only for package @rlx/far-plugin-redis
+
+
+
+
+
 # [1.1.0](https://git.corp.relxtech.com/fe/far/compare/@rlx/far-plugin-redis@1.0.0...@rlx/far-plugin-redis@1.1.0) (2022-01-05)
 
 
