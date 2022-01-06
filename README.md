@@ -56,7 +56,7 @@ export default defineConfig({
   plugins: [taiRoutesPlugin, redisPlugin],
   /** 插件: 钛路由配置 **/
   tai: {
-    entry: './src/apis',
+    apiDir: './src/apis',
   },
   /** 内置插件: logger 配置 **/
   logger: {
