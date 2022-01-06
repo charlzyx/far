@@ -42,6 +42,11 @@ const memoryStore: Store = {
 
 type Clear = () => void;
 
+export const useRequestId = () => {
+  const alsId = getIdByAlsStore() as string;
+  return alsId;
+};
+
 /**
  * 直接在缓存中的存储, 跟 cache 的区别是每个请求结束之后就会销毁 */
 export const useRawMemory = <K extends keyof StoreSpace, T = StoreSpace[K]>(

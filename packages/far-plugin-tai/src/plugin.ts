@@ -11,7 +11,7 @@ export const byPwd = (first: string, ...rest: string[]) => {
   const isAbs = path.isAbsolute(first);
   const prefix = isAbs ? first : process.cwd();
   const ret = path.resolve(prefix, isAbs ? '' : first, ...rest);
-  console.log({ isAbs, prefix, ret, first, rest });
+  // console.log({ isAbs, prefix, ret, first, rest });
   return ret;
 };
 

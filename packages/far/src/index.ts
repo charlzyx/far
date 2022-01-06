@@ -16,6 +16,7 @@ export {
   useHeaders,
   useRawCache,
   useRawMemory,
+  useRequestId,
 } from './hooks';
 export { logger } from './logger';
 export { FarPlugin, PLUGIN_PRIORITY } from './plugins';
