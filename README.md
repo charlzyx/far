@@ -30,8 +30,11 @@
 
 ## 示例项目 packages/example
 ### start
+
 ```bash
 cd packages/example
+# 启动 redis 和 mysql
+docker-compose up -d
 npm run dev
 ```
 
