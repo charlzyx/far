@@ -17,15 +17,17 @@
   "::为<pkgB>安装依赖<pkgA>": "yarn workspace <pkgB> add <pkgA>",
   "::删除<pkgB>的依赖<pkgA>": "yarn workspace pkgB remove pkgA",
   "::git commit 请使用下方命令": "yarn commit | npm run commit",
-  "::发布": "learn publish",
+  "::发布": "lerna publish",
+  "::prebuild": "修复一下 example 里面的 far 命令使用",
   "bootstrap": "lerna bootstrap --use-workspaces",
+  "prebuild": "yarn workspace @rlx/example add @rlx/far",
   "commit": "git-cz",
-  "clean": "yarn workspaces run clean",
+  "clean": "lerna clean",
   "build": "lerna run --stream --sort build",
   "start": "lerna run start --parallel",
   "dev": "lerna run dev --parallel",
   "test": "lerna run --stream --sort test"
-}
+},
 ```
 
 ## 示例项目 packages/example
