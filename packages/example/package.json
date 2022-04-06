@@ -1,7 +1,7 @@
 {
   "name": "@rlx/example",
   "private": true,
-  "version": "1.1.2",
+  "version": "1.1.3",
   "description": "rlx node server",
   "scripts": {
     "dev": "far dev",
@@ -15,9 +15,9 @@
   "author": "xiaochao.yang",
   "license": "MIT",
   "dependencies": {
-    "@rlx/far": "^1.2.1",
-    "@rlx/far-plugin-redis": "^1.1.2",
-    "@rlx/far-plugin-tai": "^1.2.1",
+    "@rlx/far": "^1.2.2",
+    "@rlx/far-plugin-redis": "^1.1.3",
+    "@rlx/far-plugin-tai": "^1.2.2",
     "@rlx/tai": "^1.0.1"
   }
 }
