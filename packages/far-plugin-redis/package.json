@@ -5,20 +5,8 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "build": "tsup-node --dts",
+    "build": "tsc",
     "test": "jest"
-  },
-  "tsup": {
-    "splitting": false,
-    "sourcemap": true,
-    "format": [
-      "cjs"
-    ],
-    "clean": true,
-    "target": "node16",
-    "entryPoints": [
-      "src/index.ts"
-    ]
   },
   "engines": {
     "node": ">=16"

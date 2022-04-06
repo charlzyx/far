@@ -1,22 +1,32 @@
 import { Conf } from '@rlx/conf';
+import fs from 'fs';
 import type { LoggerConfig } from './logger';
 import type { StaticsPluginConfig } from './plugins/static';
 import type { BodyParserPluginConfig } from './plugins/bodyParser';
 import type { TracerPluginConfig } from './plugins/tracer';
 import type { FarPlugin } from './plugins';
 import { byPwd } from './utils';
-import type { Options } from 'tsup';
 
-export const FarTSUPConfig: Options = {
-  splitting: false,
-  /**
-   * https://tsup.egoist.sh/#excluding-all-packages
-   * https://github.com/egoist/tsup/blob/dev/src/cli-node.ts
-   */
-  skipNodeModulesBundle: true,
-  format: ['cjs'],
-  target: 'node16',
-  platform: 'node',
+const autoLoadPlugins = () => {
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  const pkg = require(byPwd('./package.json'));
+  const deps = Object.keys(pkg.dependencies);
+  const plugins = deps.filter((x) => {
+    return /^(@rlx\/)?far-plugin-/.test(x);
+  });
+  console.log(`自动加载插件列表: ${plugins.join(', ')}`);
+  fs.writeFileSync(
+    byPwd('./node_modules/@types/@rlx__far/index.d.ts'),
+    `
+${plugins.map((plug) => `import "${plug}";`).join('\n')}
+// 此类型提示为自动添加, 请不要手动修改当前文件
+  `,
+    'utf-8',
+  );
+  return plugins.map((plug) => {
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    return require(plug).plugin;
+  });
 };
 
 export const APPNAME = 'far';
@@ -49,6 +59,7 @@ export const loadConf = async (online?: boolean) => {
   const conf = await Conf.make(APPNAME, FarConfigDefaults as FarConfig);
   conf.put((old) => {
     old.outDir = byPwd(old.outDir);
+    old.plugins = [...old.plugins, ...autoLoadPlugins()];
   });
   const configResolvers = conf.plugins
     .filter((plugin) => Boolean(plugin.confResolver))

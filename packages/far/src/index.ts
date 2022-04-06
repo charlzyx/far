@@ -3,7 +3,6 @@ export {
   FarConfig,
   FarConfigDefaults,
   FarConfigResolver,
-  FarTSUPConfig,
   loadConf,
 } from './config';
 export {

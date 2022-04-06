@@ -3,7 +3,7 @@ import { FarConfigResolver, FarPlugin, PLUGIN_PRIORITY } from '@rlx/far';
 import { OpenAPIV3 } from 'openapi-types';
 import path from 'path';
 import fs from 'fs';
-import * as tsup from 'tsup';
+import justrequire from 'justrequire';
 
 export const isPROD = process.env.NODE_ENV === 'production';
 
@@ -89,18 +89,18 @@ const genSpec = async (conf: Parameters<FarConfigResolver>[0]) => {
 };
 
 export const configResolver: FarConfigResolver = async (conf, online) => {
-  const out = outputTo(conf);
+  // const out = outputTo(conf);
   const specOut = specOutput(conf);
   const entry = byPwd(conf.tai.apiDir);
   let spec: any;
   if (!online) {
-    await tsup.build({
-      entry: [entry],
-      outDir: out,
-      clean: false,
-      target: 'node16',
-      format: ['cjs'],
-    });
+    // await tsup.build({
+    //   entry: [entry],
+    //   outDir: out,
+    //   clean: false,
+    //   target: 'node16',
+    //   format: ['cjs'],
+    // });
     spec = await genSpec(conf);
     fs.writeFileSync(specOut, JSON.stringify(spec, null, 2), 'utf-8');
   } else {
@@ -110,7 +110,7 @@ export const configResolver: FarConfigResolver = async (conf, online) => {
   conf.put((old) => {
     /** dev 环境依赖 debug.ts, eggpain, 回头再看有没有好办法吧 */
     if (isPROD || !old.apis) {
-      old.apis = require(out);
+      old.apis = justrequire(entry);
     }
     old.openapi = spec;
   });
