@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.2.8](https://git.corp.relxtech.com/fe/far/compare/@rlx/far-plugin-tai@1.2.7...@rlx/far-plugin-tai@1.2.8) (2022-04-06)
+
+
+### Bug Fixes
+
+* 🐛 fix tai plugin entry file ([917924b](https://git.corp.relxtech.com/fe/far/commits/917924b9a24d8c9ec19fa9eddceaec30962c01ea))
+
+
+
+
+
 ## [1.2.7](https://git.corp.relxtech.com/fe/far/compare/@rlx/far-plugin-tai@1.2.6...@rlx/far-plugin-tai@1.2.7) (2022-04-06)
 
 
