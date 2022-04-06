@@ -9,7 +9,7 @@
   },
   "scripts": {
     "build": "tsc",
-    "postinstall": "far autoload",
+    "postinstall": "npx far autoload",
     "test": "jest"
   },
   "engines": {
