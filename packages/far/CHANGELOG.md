@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.2.5](https://git.corp.relxtech.com/fe/far/compare/@rlx/far@1.2.3...@rlx/far@1.2.5) (2022-04-06)
+
+
+### Bug Fixes
+
+* 🐛 version fix ([b5f4952](https://git.corp.relxtech.com/fe/far/commits/b5f4952af2e38ca9b91882f55a101316b64a38b3))
+
+
+
+
+
 ## [1.2.3](https://git.corp.relxtech.com/fe/far/compare/@rlx/far@1.2.2...@rlx/far@1.2.3) (2022-04-06)
 
 
