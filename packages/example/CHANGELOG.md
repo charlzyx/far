@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.10](https://git.corp.relxtech.com/fe/far/compare/@rlx/example@1.1.9...@rlx/example@1.1.10) (2022-04-06)
+
+**Note:** Version bump only for package @rlx/example
+
+
+
+
+
 ## [1.1.9](https://git.corp.relxtech.com/fe/far/compare/@rlx/example@1.1.8...@rlx/example@1.1.9) (2022-04-06)
 
 **Note:** Version bump only for package @rlx/example

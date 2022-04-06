@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.2.7](https://git.corp.relxtech.com/fe/far/compare/@rlx/far@1.2.6...@rlx/far@1.2.7) (2022-04-06)
+
+
+### Bug Fixes
+
+* 🐛 修复 logger bind 问题 ([36597a1](https://git.corp.relxtech.com/fe/far/commits/36597a1e9e973a5e0dbd198377012ee15ba23983))
+
+
+
+
+
 ## [1.2.6](https://git.corp.relxtech.com/fe/far/compare/@rlx/far@1.2.5...@rlx/far@1.2.6) (2022-04-06)
 
 
