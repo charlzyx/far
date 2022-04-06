@@ -104,7 +104,13 @@ export const configResolver: FarConfigResolver = async (conf, online) => {
     spec = await genSpec(conf);
     fs.writeFileSync(specOut, JSON.stringify(spec, null, 2), 'utf-8');
   } else {
-    spec = require(specOut);
+    try {
+      spec = require(specOut);
+    } catch (error) {
+      console.log('require spec error');
+      console.error(error);
+      spec = {};
+    }
   }
 
   conf.put((old) => {
