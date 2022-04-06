@@ -1,6 +1,6 @@
 {
   "name": "@rlx/far",
-  "version": "1.2.5",
+  "version": "1.2.6",
   "description": "rlx node server",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -12,7 +12,10 @@
     "test": "jest"
   },
   "tsup": {
-    "entry": ["src/bin/far.ts", "src/index.ts"],
+    "entry": [
+      "src/bin/far.ts",
+      "src/index.ts"
+    ],
     "splitting": false,
     "sourcemap": true,
     "clean": true
