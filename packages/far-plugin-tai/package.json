@@ -1,6 +1,6 @@
 {
   "name": "@rlx/far-plugin-tai",
-  "version": "1.2.5",
+  "version": "1.2.6",
   "description": "rlx node server",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
