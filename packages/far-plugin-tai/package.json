@@ -4,9 +4,16 @@
   "description": "rlx node server",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+
   "scripts": {
-    "build": "tsc",
+    "build": "tsup-node --dts",
     "test": "jest"
+  },
+  "tsup": {
+    "entry": ["src/index.ts"],
+    "splitting": false,
+    "sourcemap": true,
+    "clean": true
   },
   "engines": {
     "node": ">=16"

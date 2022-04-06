@@ -8,8 +8,14 @@
     "far": "dist/bin/far.js"
   },
   "scripts": {
-    "build": "tsc",
+    "build": "tsup-node --dts",
     "test": "jest"
+  },
+  "tsup": {
+    "entry": ["src/bin/far.ts", "src/index.ts"],
+    "splitting": false,
+    "sourcemap": true,
+    "clean": true
   },
   "engines": {
     "node": ">=16"
