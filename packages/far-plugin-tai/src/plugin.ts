@@ -116,7 +116,8 @@ export const configResolver: FarConfigResolver = async (conf, online) => {
   conf.put((old) => {
     /** dev 环境依赖 debug.ts, eggpain, 回头再看有没有好办法吧 */
     if (isPROD || !old.apis) {
-      old.apis = justrequire(entry);
+      const entryFile = /\.*$/.test(entry) ? entry : `${entry}/index.ts`;
+      old.apis = justrequire(entryFile);
     }
     old.openapi = spec;
   });
