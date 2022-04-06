@@ -4,7 +4,7 @@
     "strict": true,
     "declaration": true,
     "forceConsistentCasingInFileNames": true,
-    "target": "es2017",
+    "target": "ESNext",
     "sourceMap": true,
     "baseUrl": "./",
     "paths": {
@@ -14,7 +14,7 @@
     },
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
-    "importHelpers": true
+    "importHelpers": false
   },
   "exclude": [
     "node_modules",
