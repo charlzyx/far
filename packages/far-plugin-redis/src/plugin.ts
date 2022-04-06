@@ -43,7 +43,7 @@ export const redisPlugin: FarPlugin = async (conf, { logger }) => {
     logger.warn('redis create error');
     return;
   }
-  anyway?.on('error', logger.error);
+  anyway?.on('error', logger.error.bind(logger));
   await anyway?.connect();
   logger.info('redis connect success!');
   const redisStore: Store = {

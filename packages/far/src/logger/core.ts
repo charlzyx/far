@@ -78,6 +78,18 @@ export const createLoggerWithLabel = (label: string, runtime?: boolean) => {
       }),
     );
   }
+  /**
+   * FIX THIS
+   * https://github.com/winstonjs/winston/issues/1591
+   */
+  Object.keys(labelLogger).forEach((key) => {
+    if (
+      Object.prototype.hasOwnProperty.call(labelLogger, key) &&
+      typeof (labelLogger as any)[key] === 'function'
+    ) {
+      (labelLogger as any)[key] = (labelLogger as any)[key].bind(labelLogger);
+    }
+  });
   return labelLogger as FarLogger;
 };
 

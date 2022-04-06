@@ -13,8 +13,7 @@
       ]
     },
     "allowSyntheticDefaultImports": true,
-    "esModuleInterop": true,
-    "importHelpers": false
+    "esModuleInterop": true
   },
   "exclude": [
     "node_modules",
