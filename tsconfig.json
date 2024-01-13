@@ -1,0 +1,11 @@
+{
+	"compilerOptions": {
+		"module": "CommonJS",
+		"target": "ES6",
+		"moduleResolution": "Node",
+	// @deepkit
+		"experimentalDecorators": true
+	},
+	// @deepkit
+	"reflection": true
+}

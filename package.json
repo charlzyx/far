@@ -1,0 +1,26 @@
+{
+	"name": "typejson",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"scripts": {
+		"start": "ts-node app.ts",
+		"postinstall": "echo 'deepkit install' && ./node_modules/.bin/deepkit-type-install"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"devDependencies": {
+		"@deepkit/type-compiler": "^1.0.1-alpha.110",
+		"ts-node": "^10.9.2",
+		"typescript": "^5.3.3"
+	},
+	"dependencies": {
+		"@deepkit/core": "^1.0.1-alpha.108",
+		"@deepkit/orm": "^1.0.1-alpha.110",
+		"@deepkit/sqlite": "^1.0.1-alpha.110",
+		"@deepkit/type": "^1.0.1-alpha.110",
+		"@types/node": "^20.11.0",
+		"fastify": "^4.25.2"
+	}
+}
