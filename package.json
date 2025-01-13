@@ -35,7 +35,6 @@
     "@commitlint/cli": "^15.0.0",
     "@commitlint/config-conventional": "^15.0.0",
     "@commitlint/config-lerna-scopes": "^15.0.0",
-    "@rlx/eslint-config-node": "^2.0.4",
     "@types/node": "^17.0.5",
     "commitizen": "^4.2.4",
     "cz-lerna-changelog": "^2.0.3",
